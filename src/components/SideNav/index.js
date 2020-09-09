@@ -6,7 +6,7 @@ import { NavContext, DisplayContext } from "../../App";
 import { Hamburker, HamburkerNone, SelectBot, SelectBotWidth } from "./styled";
 import { useRecoilState } from "recoil";
 import { currentMenuState } from "../../recoil/atoms";
-
+import Divider from "@material-ui/core/Divider";
 const SideNav = (props) => {
   const Nav = React.useContext(NavContext);
   const Display = React.useContext(DisplayContext);
@@ -71,6 +71,7 @@ const SideNav = (props) => {
                 </div>
               </Link>
             </li> */}
+
             <div className={`nav-container`}>
               <div onClick={handleClickSelectBot} className={`menu`}>
                 <i className="fa fa-pie-chart icon_nav"></i>
@@ -97,7 +98,7 @@ const SideNav = (props) => {
                 </li>
               </SelectBot>
             </SelectBotWidth>
-
+            <Divider />
             <li onClick={() => handleClickMenu(1)} className={`nav-container ${currentMenu === 1 ? "active" : null}`}>
               <Link className="link" to="/">
                 <div className={`${currentMenu === 1 ? "menu-active" : "menu"}`}>
@@ -106,6 +107,7 @@ const SideNav = (props) => {
                 </div>
               </Link>
             </li>
+            <Divider />
 
             <li onClick={() => handleClickMenu(2)} className={`nav-container ${currentMenu === 2 ? "active" : null}`}>
               <Link className="link" to="/detail_keyword">
@@ -115,6 +117,7 @@ const SideNav = (props) => {
                 </div>
               </Link>
             </li>
+            <Divider />
             <li onClick={() => handleClickMenu(3)} className={`nav-container ${currentMenu === 3 ? "active" : null}`}>
               <Link className="link" to="/history_detail">
                 <div className={`${currentMenu === 3 ? "menu-active" : "menu"}`}>
@@ -123,6 +126,7 @@ const SideNav = (props) => {
                 </div>
               </Link>
             </li>
+            <Divider />
             <li onClick={() => handleClickMenu(4)} className={`nav-container ${currentMenu === 4 ? "active" : null}`}>
               <Link className="link" to="/create_user">
                 <div className={`${currentMenu === 4 ? "menu-active" : "menu"}`}>
@@ -131,6 +135,7 @@ const SideNav = (props) => {
                 </div>
               </Link>
             </li>
+            <Divider />
 
             {/* <li onClick={() => handleClickMenu(1)} className={`nav-container ${currentMenu === 1 ? "active" : null}`}>
               <Link className="link" to="/page_register">
