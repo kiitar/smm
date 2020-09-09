@@ -1,0 +1,109 @@
+/* .sidenav {
+  background: #384c61;
+  width: 255px;
+  height: 100vh;
+  z-index: 999;
+  position: fixed;
+} */
+.close-sidenav {
+  display: none;
+}
+
+hr {
+  color: red;
+}
+
+.icon-logo {
+  background: #ffffff;
+  height: 150px;
+  text-align: center;
+  line-height: 0.5em;
+  color: #707070;
+  /* border-bottom: 1.2px solid #707070; */
+  /* box-shadow: 1px 3px 8px #707070; */
+}
+.logo {
+  width: 100px;
+}
+.name-logo {
+  font-size: 0.7em;
+  line-height: 2em;
+  font-weight: bold;
+}
+.sidenav-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+}
+.nav-container {
+  line-height: 3.5em;
+  list-style-type: none;
+}
+.nav-container:hover {
+  background: #707070;
+  color: white !important;
+  margin: 5px;
+  cursor: pointer;
+  /* transition: 0.2s; */
+}
+.active {
+  margin: 5px;
+  background: rgb(70, 70, 70);
+  color: white !important;
+}
+
+.nav-container:active {
+  background: rgb(70, 70, 70);
+  color: white !important;
+  /* transition: 0.2s; */
+}
+.menu {
+  color: rgb(58, 58, 58);
+  font-weight: bold;
+  margin: 0 20px;
+  font-size: 85%;
+  /* color: white; */
+  /* background: yellow; */
+}
+.menu-active {
+  /* color: rgb(58, 58, 58); */
+  font-weight: bold;
+  margin: 0 20px;
+  font-size: 85%;
+  color: white;
+  /* background: yellow; */
+}
+.menu:hover {
+  color: white;
+}
+/* .active {
+  background-color: #666;
+  color: white;
+} */
+.icon_nav {
+  margin-right: 15px;
+  font-size: 1.1em !important;
+}
+.link {
+  text-decoration: none;
+}
+
+.container-select {
+  background: #585858;
+}
+
+.fa-sort-down,
+.fa-sort-up {
+  float: right;
+  margin: 16px 0;
+}
+.chatbot-menu {
+  padding: 20px;
+}
+.chatbot-menu:hover {
+  /* padding: 25px; */
+  /* transition: 0.5s; */
+  color: #0095ff;
+  cursor: pointer;
+}
