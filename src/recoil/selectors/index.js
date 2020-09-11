@@ -1,3 +1,3 @@
-import { addKeywordSelector } from "./addKeywordSelector";
+import { getKeywordSelector } from "./getKeywordSelector";
 
-export { addKeywordSelector };
+export { getKeywordSelector };

@@ -370,10 +370,16 @@ tr:hover {
   margin: 0 4px;
   /* box-shadow: 1px 3px 8px #aaaaaa; */
 }
+.checked {
+  background: rgb(145, 3, 189);
+  color: white;
+  border: 2px solid rgb(145, 3, 189);
+}
 .checkbox:hover {
   cursor: pointer;
-  color: rgb(145, 3, 189);
-  border: 1px solid rgb(145, 3, 189);
+  /* color: rgb(145, 3, 189); */
+  color: gray;
+  border: 1.5px solid rgb(145, 3, 189);
 }
 .flex-check {
   display: flex;
@@ -465,10 +471,12 @@ tr:hover {
   display: flex;
   align-items: center;
 }
-.btn-message {
+.btn-message-0 {
   /* background: cornflowerblue; */
-  border: cornflowerblue 1.5px solid;
-  color: cornflowerblue;
+  /* border: cornflowerblue 1.5px solid; */
+  border: gray 1px solid;
+  color: gray;
+  /* color: cornflowerblue; */
   width: 80px;
   height: 70px;
   display: flex;
@@ -480,19 +488,29 @@ tr:hover {
   border-radius: 10px;
   font-size: 0.8em;
 }
-.btn-message:hover {
+.btn-message-0:hover {
+  /* background: cornflowerblue; */
+  background: white;
+  color: gray;
+  cursor: pointer;
+}
+.btn-selected-0 {
+  background: cornflowerblue;
+  border: cornflowerblue 1.5px solid;
   background: cornflowerblue;
   color: white;
   cursor: pointer;
 }
-.btn-message:focus {
+.btn-message-0:focus {
   background: cornflowerblue;
   color: white;
 }
 .btn-message-1 {
   /* background: cornflowerblue; */
-  border: rgb(255, 0, 0) 1.5px solid;
-  color: rgb(255, 0, 0);
+  /* border: rgb(255, 0, 0) 1.5px solid; */
+  border: gray 1px solid;
+  /* color: rgb(255, 0, 0); */
+  color: gray;
   width: 80px;
   height: 70px;
   display: flex;
@@ -505,14 +523,23 @@ tr:hover {
   font-size: 0.8em;
 }
 .btn-message-1:hover {
+  /* background: rgb(255, 0, 0); */
+  background: white;
+  color: gray;
+  cursor: pointer;
+}
+.btn-selected-1 {
   background: rgb(255, 0, 0);
   color: white;
+  border: rgb(255, 0, 0) 1.5px solid;
   cursor: pointer;
 }
 .btn-message-2 {
   /* background: cornflowerblue; */
-  border: rgb(0, 180, 69) 1.5px solid;
-  color: rgb(0, 180, 69);
+  /* border: rgb(0, 180, 69) 1.5px solid; */
+  border: gray 1px solid;
+  /* color: rgb(0, 180, 69); */
+  color: gray;
   width: 80px;
   height: 70px;
   display: flex;
@@ -524,9 +551,19 @@ tr:hover {
   border-radius: 10px;
   font-size: 0.8em;
 }
-.btn-message-2:hover {
+
+.btn-selected-2 {
   background: rgb(0, 180, 69);
   color: white;
+  border: rgb(0, 180, 69) 1.5px solid;
+  /* color: rgb(0, 180, 69); */
+  cursor: pointer;
+}
+.btn-message-2:hover {
+  background: white;
+  color: gray;
+  border: rgb(0, 180, 69) 1.5px solid;
+  /* color: rgb(0, 180, 69); */
   cursor: pointer;
 }
 .number-Negative {
@@ -805,7 +842,7 @@ tr:hover {
     font-size: 0.7em;
   }
   .btn-message-1,
-  .btn-message,
+  .btn-message-0,
   .btn-message-2 {
     width: 50px;
     height: 50px;

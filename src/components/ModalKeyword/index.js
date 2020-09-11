@@ -4,20 +4,21 @@ import ChipInput from "material-ui-chip-input";
 import "./style.css";
 // import { useRecoilState, useResetRecoilState } from "recoil";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { addKeywordState, userState } from "../../recoil/atoms";
+import { addKeywordState, userState, fetchKeywordState } from "../../recoil/atoms";
 import { RequestAPI } from "../../utils";
 import { createKeywords } from "../../graphql/Keywords";
 
 const ModalKeyword = () => {
   const user = useRecoilValue(userState);
   const [addKeyword, setAddKeyword] = useRecoilState(addKeywordState);
+  const [fetchKeyword, setFetchKeyword] = useRecoilState(fetchKeywordState);
 
   const handleInputKeyword = (e) => {
     setAddKeyword({ ...addKeyword, keywordInput: e.target.value });
   };
 
   const handleAddInclude = (text) => {
-    console.log(text);
+    // console.log(text);
     setAddKeyword({ ...addKeyword, includeWord: [...addKeyword.includeWord, text] });
   };
   const handleDeleteInclude = async (text, i) => {
@@ -27,7 +28,7 @@ const ModalKeyword = () => {
   };
 
   const handleAddExclude = (text) => {
-    console.log(text);
+    // console.log(text);
     setAddKeyword({ ...addKeyword, excludeWord: [...addKeyword.excludeWord, text] });
   };
   const handleDeleteExclude = async (text, i) => {
@@ -37,10 +38,11 @@ const ModalKeyword = () => {
   };
 
   const handleCreateKeyword = async () => {
-    console.log("create");
+    // console.log("create");
     if (!addKeyword.keywordInput.length) {
       return;
     }
+
     setAddKeyword({
       ...addKeyword,
       loading: true,
@@ -67,8 +69,9 @@ const ModalKeyword = () => {
         excludeWord: [],
         keywordInput: "",
       });
+      setFetchKeyword(!fetchKeyword);
     }
-    console.log(`handleCreateKeyword -> data`, data);
+    // console.log(`handleCreateKeyword -> data`, data);
     console.log(`handleCreateKeyword -> errors`, errors);
   };
 

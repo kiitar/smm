@@ -93,7 +93,18 @@ hr {
 }
 
 .container-select {
-  background: #585858;
+  background: gray;
+  z-index: 999999;
+}
+.container-select:hover {
+  background: gray;
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+  /* margin-top: 2px; */
+  /* margin: 5px;
+  border-radius: 5px;
+  z-index: 999999; */
 }
 
 .fa-sort-down,
@@ -102,11 +113,17 @@ hr {
   margin: 16px 0;
 }
 .chatbot-menu {
-  padding: 20px;
+  padding: 18px;
+  color: white;
+  /* margin: 2px; */
 }
 .chatbot-menu:hover {
   /* padding: 25px; */
   /* transition: 0.5s; */
-  color: #0095ff;
+  color: rgba(175, 0, 255, 1);
+  background: white;
+  margin-left: 5px;
+  margin-right: 5px;
+  border-radius: 5px;
   cursor: pointer;
 }

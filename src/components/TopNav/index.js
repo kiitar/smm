@@ -8,13 +8,13 @@ function TopNav() {
   const Display = React.useContext(DisplayContext);
 
   const handleClick = () => {
-    console.log("Logout");
+    // console.log("Logout");
     localStorage.clear();
     Auth.setAuth(false);
   };
 
   const handleClickSideNav = () => {
-    console.log("Sidenav");
+    // console.log("Sidenav");
     Nav.setAnimateNav(!Nav.animateNav);
     Display.setDisplay("block");
   };

@@ -10,21 +10,13 @@ function TopNav() {
         <h4>chakri.psu@gmail.com</h4>
         <div className="box-register-body">
           <div className="box-input-register">
-            <i class="fa fa-lock icon-input-register"></i>
-            <input
-              type="text"
-              className="input-register"
-              placeholder=" Enter your new password..."
-            />
+            <i className="fa fa-lock icon-input-register"></i>
+            <input type="text" className="input-register" placeholder=" Enter your new password..." />
           </div>
 
           <div className="box-input-register">
-            <i class="fa fa-lock icon-input-register"></i>
-            <input
-              type="text"
-              className="input-register"
-              placeholder=" Repeat new password..."
-            />
+            <i className="fa fa-lock icon-input-register"></i>
+            <input type="text" className="input-register" placeholder=" Repeat new password..." />
           </div>
 
           <button className="btn-register">SAVE</button>

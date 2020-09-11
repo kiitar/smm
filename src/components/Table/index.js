@@ -15,7 +15,7 @@ const Table = ({ data }) => {
   };
 
   const deleteTrainSet = (id) => {
-    console.log(id);
+    // console.log(id);
     let data = JSON.stringify({
       query:
         "mutation deleteTrainSet(\n    $id:Int!\n  ){\n    deleteTrainSet(\n        id:$id\n    ){\n        id\n  }\n}",

@@ -1,40 +1,61 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import Pagination from "@material-ui/lab/Pagination";
 import Button from "../../components/Button";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { addKeywordState, userState } from "../../recoil/atoms";
+import { addKeywordState, userState, fetchKeywordState } from "../../recoil/atoms";
 // import { addKeywordSelector } from "../../recoil/selectors";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ModalKeyword from "../../components/ModalKeyword";
 import { RequestAPI } from "../../utils";
-import { getKeywords } from "../../graphql/Keywords";
+import { getKeywords, deleteKeywords } from "../../graphql/Keywords";
 
 const AddKeyword = () => {
   const [addKeyword, setAddKeyword] = useRecoilState(addKeywordState);
+  const [fetchKeyword, setFetchKeyword] = useRecoilState(fetchKeywordState);
   const user = useRecoilValue(userState);
   // const tar = useRecoilValue(addKeywordSelector);
 
   const handleOnChangePage = (p) => {
-    console.log(p);
+    // console.log(p);
     setAddKeyword({ ...addKeyword, page: p });
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      let offset = `${addKeyword.page - 1}0`;
-      let { data, errors } = await RequestAPI(getKeywords, {
-        users_id: user.userId,
-        offset: parseInt(offset),
-        limit: addKeyword.limit,
-      });
-      if (data) {
-        setAddKeyword({ ...addKeyword, rows: data.getKeywords.rows, keywordsData: [...data.getKeywords.data] });
-      }
-    };
+  const deleteKeyword = async (id) => {
+    // console.log("v : ", id);
+    setAddKeyword({ ...addKeyword, loading: true });
+    let { data, errors } = await RequestAPI(deleteKeywords, {
+      keywords_id: id,
+      users_id: user.userId,
+      project_id: user.projectId,
+    });
 
-    fetchData();
-  }, [addKeyword.loading, addKeyword.page]);
+    // console.log(`delete data`, data);
+    console.log(`deleteKeywords -> errors`, errors);
+    if (data) {
+      setFetchKeyword(!fetchKeyword);
+      setAddKeyword({ ...addKeyword, loading: false });
+    }
+  };
+
+  const fetchData = async () => {
+    let offset = `${addKeyword.page - 1}0`;
+    let { data, errors } = await RequestAPI(getKeywords, {
+      users_id: user.userId,
+      offset: parseInt(offset),
+      limit: addKeyword.limit,
+    });
+    console.log(`fetchData -> errors`, errors);
+    if (data) {
+      setAddKeyword({ ...addKeyword, rows: data.getKeywords.rows, keywordsData: [...data.getKeywords.data] });
+    }
+  };
+
+  const stableLoad = useCallback(fetchData, [addKeyword.loading, addKeyword.page]);
+  // addKeyword.loading, addKeyword.page,
+  useEffect(() => {
+    stableLoad();
+  }, [stableLoad]);
 
   return (
     <div className="container-main">
@@ -87,7 +108,13 @@ const AddKeyword = () => {
                         <td className="center">
                           {/* <Button name="Read" />
                         <Button name="Edit" /> */}
-                          <Button name="Delete" styleBtn="delete" />
+                          <Button
+                            name="Delete"
+                            styleBtn="delete"
+                            onClick={() => {
+                              deleteKeyword(v.id);
+                            }}
+                          />
                         </td>
                       </tr>
                     );

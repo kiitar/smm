@@ -14,7 +14,7 @@ const Modal = () => {
   return (
     <div className="modal">
       <div className="container-modal">
-        <div className="name-modal flex center">{/* <i class="fa fa-warning"></i> */}</div>
+        <div className="name-modal flex center">{/* <i className="fa fa-warning"></i> */}</div>
         <div className="name-modal flex center">
           <h2>ยืนยันการทำรายการ</h2>
         </div>

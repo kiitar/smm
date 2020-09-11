@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Route, BrowserRouter as Router, Switch, Redirect } from "react-router-dom";
 import Tranning from "./pages/Tranning";
-import History from "./pages/History";
+import Monitor from "./pages/Monitor";
 import HistoryDetail from "./pages/HistoryDetail";
 import CreateUser from "./pages/CreateUser";
 import PageRegister from "./pages/PageRegister";
@@ -10,7 +10,8 @@ import PageRegister from "./pages/PageRegister";
 import AddKeyword from "./pages/AddKeyword";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
-import SideNav from "./components/SideNav";
+// import SideNav from "./components/SideNav";
+
 import TopNav from "./components/TopNav";
 import "./App.css";
 import "./style/btn.css";
@@ -21,6 +22,7 @@ export const AuthContext = React.createContext();
 export const SelectContext = React.createContext();
 export const NavContext = React.createContext();
 export const DisplayContext = React.createContext();
+const SideNav = React.lazy(() => import("./components/SideNav"));
 
 const App = () => {
   const [auth, setAuth] = useState(false);
@@ -64,7 +66,7 @@ const App = () => {
         <PrivateRoute exact path="/" component={AddKeyword} auth={Auth.auth} />
         <PrivateRoute exact path="/add_keyword" component={AddKeyword} auth={Auth.auth} />
         <PrivateRoute exact path="/tranning" component={Tranning} auth={Auth.auth} />
-        <PrivateRoute exact path="/detail_keyword" component={History} auth={Auth.auth} />
+        <PrivateRoute exact path="/monitor" component={Monitor} auth={Auth.auth} />
         <PrivateRoute exact path="/history_detail" component={HistoryDetail} auth={Auth.auth} />
         <PrivateRoute exact path="/create_user" component={CreateUser} auth={Auth.auth} />
         <PrivateRoute exact path="/page_register" component={PageRegister} auth={Auth.auth} />
@@ -89,7 +91,11 @@ const App = () => {
               ></link>
 
               <div className="main">
-                {auth && <SideNav animateNav={animateNav} display={display} />}
+                {auth && (
+                  <React.Suspense fallback={<p>loading ...</p>}>
+                    <SideNav animateNav={animateNav} display={display} />
+                  </React.Suspense>
+                )}
                 <div className="divnav"></div>
 
                 <div className="body">

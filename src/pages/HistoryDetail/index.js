@@ -95,13 +95,51 @@ const AddKeyword = () => {
                 <div className="flex-1 bold">The most popular mentions</div>
               </div>
               <div>
+                {/* <div className="box-message-data">
+                  <div className="flex-data">
+                    <i className="fa fa-twitter icon-message-data"></i>
+                    <div className="bold">
+                      <div className="font-data-title">Apirom Singhapookam</div>
+                      <div className="font-data ">
+                        <i className="fa fa-calendar icon-date"></i>
+                        <span className="icon-date-1">20-08-2020</span>
+                        <div className="green margin">Positive</div>
+                      </div>
+                    </div>
+                  </div>
+                  <span className="font-data-title">
+                    สิ้นสุดการรอคอย กลับมาเร่งเต็มสปีดเพื่อช่วงชิงความเป็นหนึ่ง
+                    กับบทพิสูจน์ความเร็วแรงเต็มสมรรถนะของการแข่งขันรถยนต์วันเมคเรซใหญ่ที่สุดในเอเชีย “โตโยต้า กาซู
+                    เรซซิ่ง มอเตอร์สปอร์ต 2020”
+                  </span>
+                </div> */}
+
+                {/* <div className="box-message-data">
+                  <div className="flex-data">
+                    <i className="fa fa-twitter icon-message-data"></i>
+                    <div className="bold">
+                      <div className="font-data-title">Apirom Singhapookam</div>
+                      <div className="font-data ">
+                        <i className="fa fa-calendar icon-date"></i>
+                        <span className="icon-date-1">20-08-2020</span>
+                        <div className="green margin">Positive</div>
+                      </div>
+                    </div>
+                  </div>
+                  <span className="font-data-title">
+                    สิ้นสุดการรอคอย กลับมาเร่งเต็มสปีดเพื่อช่วงชิงความเป็นหนึ่ง
+                    กับบทพิสูจน์ความเร็วแรงเต็มสมรรถนะของการแข่งขันรถยนต์วันเมคเรซใหญ่ที่สุดในเอเชีย “โตโยต้า กาซู
+                    เรซซิ่ง มอเตอร์สปอร์ต 2020”
+                  </span>
+                </div> */}
+
                 <div className="box-message-data">
                   <div className="flex-data">
                     <i className="fa fa-twitter icon-message-data"></i>
                     <div className="bold">
                       <div className="font-data-title">Apirom Singhapookam</div>
                       <div className="font-data ">
-                        <i class="fa fa-calendar icon-date"></i>
+                        <i className="fa fa-calendar icon-date"></i>
                         <span className="icon-date-1">20-08-2020</span>
                         <div className="green margin">Positive</div>
                       </div>
@@ -120,7 +158,7 @@ const AddKeyword = () => {
                     <div className="bold">
                       <div className="font-data-title">Apirom Singhapookam</div>
                       <div className="font-data ">
-                        <i class="fa fa-calendar icon-date"></i>
+                        <i className="fa fa-calendar icon-date"></i>
                         <span className="icon-date-1">20-08-2020</span>
                         <div className="green margin">Positive</div>
                       </div>
@@ -139,45 +177,7 @@ const AddKeyword = () => {
                     <div className="bold">
                       <div className="font-data-title">Apirom Singhapookam</div>
                       <div className="font-data ">
-                        <i class="fa fa-calendar icon-date"></i>
-                        <span className="icon-date-1">20-08-2020</span>
-                        <div className="green margin">Positive</div>
-                      </div>
-                    </div>
-                  </div>
-                  <span className="font-data-title">
-                    สิ้นสุดการรอคอย กลับมาเร่งเต็มสปีดเพื่อช่วงชิงความเป็นหนึ่ง
-                    กับบทพิสูจน์ความเร็วแรงเต็มสมรรถนะของการแข่งขันรถยนต์วันเมคเรซใหญ่ที่สุดในเอเชีย “โตโยต้า กาซู
-                    เรซซิ่ง มอเตอร์สปอร์ต 2020”
-                  </span>
-                </div>
-
-                <div className="box-message-data">
-                  <div className="flex-data">
-                    <i className="fa fa-twitter icon-message-data"></i>
-                    <div className="bold">
-                      <div className="font-data-title">Apirom Singhapookam</div>
-                      <div className="font-data ">
-                        <i class="fa fa-calendar icon-date"></i>
-                        <span className="icon-date-1">20-08-2020</span>
-                        <div className="green margin">Positive</div>
-                      </div>
-                    </div>
-                  </div>
-                  <span className="font-data-title">
-                    สิ้นสุดการรอคอย กลับมาเร่งเต็มสปีดเพื่อช่วงชิงความเป็นหนึ่ง
-                    กับบทพิสูจน์ความเร็วแรงเต็มสมรรถนะของการแข่งขันรถยนต์วันเมคเรซใหญ่ที่สุดในเอเชีย “โตโยต้า กาซู
-                    เรซซิ่ง มอเตอร์สปอร์ต 2020”
-                  </span>
-                </div>
-
-                <div className="box-message-data">
-                  <div className="flex-data">
-                    <i className="fa fa-twitter icon-message-data"></i>
-                    <div className="bold">
-                      <div className="font-data-title">Apirom Singhapookam</div>
-                      <div className="font-data ">
-                        <i class="fa fa-calendar icon-date"></i>
+                        <i className="fa fa-calendar icon-date"></i>
                         <span className="icon-date-1">20-08-2020</span>
                         <div className="green margin">Positive</div>
                       </div>
@@ -277,13 +277,13 @@ const AddKeyword = () => {
                     <td className="td-line ">youtube.com</td>
                     <td className="td-line center">
                       <div className="div-flex-center">
-                        <i class="fa fa-comments-o"></i> 64
+                        <i className="fa fa-comments-o"></i> 64
                       </div>
                       <div className="message-summary">MENTIONS</div>
                     </td>
                     <td className="td-line center">
                       <div className="div-flex-center">
-                        <i class="fa fa-eye"></i> 33 B
+                        <i className="fa fa-eye"></i> 33 B
                       </div>
                       <div className="message-summary">VISITS</div>
                     </td>
@@ -292,13 +292,13 @@ const AddKeyword = () => {
                     <td className="td-line ">tiktok.com</td>
                     <td className="td-line center">
                       <div className="div-flex-center">
-                        <i class="fa fa-comments-o"></i> 125
+                        <i className="fa fa-comments-o"></i> 125
                       </div>
                       <div className="message-summary">MENTIONS</div>
                     </td>
                     <td className="td-line center">
                       <div className="div-flex-center">
-                        <i class="fa fa-eye"></i> 439 M
+                        <i className="fa fa-eye"></i> 439 M
                       </div>
                       <div className="message-summary">VISITS</div>
                     </td>
@@ -307,13 +307,13 @@ const AddKeyword = () => {
                     <td className="td-line ">sootinclaimon.wordpress.c...</td>
                     <td className="td-line center">
                       <div className="div-flex-center">
-                        <i class="fa fa-comments-o"></i> 349
+                        <i className="fa fa-comments-o"></i> 349
                       </div>
                       <div className="message-summary">MENTIONS</div>
                     </td>
                     <td className="td-line center">
                       <div className="div-flex-center">
-                        <i class="fa fa-eye"></i> 432 M
+                        <i className="fa fa-eye"></i> 432 M
                       </div>
                       <div className="message-summary">VISITS</div>
                     </td>
@@ -322,13 +322,13 @@ const AddKeyword = () => {
                     <td className="td-line ">pantip.com</td>
                     <td className="td-line center">
                       <div className="div-flex-center">
-                        <i class="fa fa-comments-o"></i> 285
+                        <i className="fa fa-comments-o"></i> 285
                       </div>
                       <div className="message-summary">MENTIONS</div>
                     </td>
                     <td className="td-line center">
                       <div className="div-flex-center">
-                        <i class="fa fa-eye"></i> 69 M
+                        <i className="fa fa-eye"></i> 69 M
                       </div>
                       <div className="message-summary">VISITS</div>
                     </td>
@@ -343,14 +343,14 @@ const AddKeyword = () => {
               <div className="flex-1 box-detail">
                 <div className="top-title">
                   <div className="flex-1 bold">
-                    <i class="fa fa-pie-chart"></i> Stats
+                    <i className="fa fa-pie-chart"></i> Stats
                   </div>
                 </div>
                 <table>
                   <tr>
                     <td className="td-line ">
                       <div>
-                        <i class="fa fa-tv"></i> 33 B <span className="message-summary green">+52%</span>
+                        <i className="fa fa-tv"></i> 33 B <span className="message-summary green">+52%</span>
                       </div>
                       <div className="message-summary">NON-SOCIAL MENTIONS</div>
                     </td>
@@ -359,7 +359,7 @@ const AddKeyword = () => {
                   <tr>
                     <td className="td-line ">
                       <div>
-                        <i class="fa fa-share-alt"></i> 439 M <span className="message-summary green">+854%</span>
+                        <i className="fa fa-share-alt"></i> 439 M <span className="message-summary green">+854%</span>
                       </div>
                       <div className="message-summary">SOCIAL MEDIA MENTIONS</div>
                     </td>
@@ -368,7 +368,7 @@ const AddKeyword = () => {
                   <tr>
                     <td className="td-line ">
                       <div>
-                        <i class="fa fa-play"></i> 432 M <span className="message-summary green">+42%</span>
+                        <i className="fa fa-play"></i> 432 M <span className="message-summary green">+42%</span>
                       </div>
                       <div className="message-summary">VIDEOS</div>
                     </td>
@@ -377,7 +377,7 @@ const AddKeyword = () => {
                   <tr>
                     <td className="td-line ">
                       <div>
-                        <i class="fa fa-retweet"></i> 69 M <span className="message-summary green">+302%</span>
+                        <i className="fa fa-retweet"></i> 69 M <span className="message-summary green">+302%</span>
                       </div>
                       <div className="message-summary">SOCIAL MEDIA SHARES</div>
                     </td>
@@ -391,14 +391,14 @@ const AddKeyword = () => {
               <div className="flex-1 box-detail">
                 <div className="top-title">
                   <div className="flex-1 bold">
-                    <i class="fa fa-share-alt"></i> Sources
+                    <i className="fa fa-share-alt"></i> Sources
                   </div>
                 </div>
                 <table>
                   <tr>
                     <td className="td-line ">
                       <div>
-                        <i class="fa fa-play"></i> 64 <span className="message-summary green">+1302%</span>
+                        <i className="fa fa-play"></i> 64 <span className="message-summary green">+1302%</span>
                       </div>
                       <div className="message-summary">VIDEOS</div>
                     </td>
@@ -407,7 +407,7 @@ const AddKeyword = () => {
                   <tr>
                     <td className="td-line ">
                       <div>
-                        <i class="fa fa-share-alt"></i> 125 <span className="message-summary green">+252%</span>
+                        <i className="fa fa-share-alt"></i> 125 <span className="message-summary green">+252%</span>
                       </div>
                       <div className="message-summary">WEB</div>
                     </td>
@@ -416,7 +416,7 @@ const AddKeyword = () => {
                   <tr>
                     <td className="td-line ">
                       <div>
-                        <i class="fa fa-newspaper-o"></i> 349 <span className="message-summary green">+652%</span>
+                        <i className="fa fa-newspaper-o"></i> 349 <span className="message-summary green">+652%</span>
                       </div>
                       <div className="message-summary">NEWS</div>
                     </td>
@@ -425,7 +425,7 @@ const AddKeyword = () => {
                   <tr>
                     <td className="td-line ">
                       <div>
-                        <i class="fa fa-rss"></i> 285 <span className="message-summary green">+52%</span>
+                        <i className="fa fa-rss"></i> 285 <span className="message-summary green">+52%</span>
                       </div>
                       <div className="message-summary">BLOGS</div>
                     </td>

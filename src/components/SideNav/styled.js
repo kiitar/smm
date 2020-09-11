@@ -5,18 +5,19 @@ export const Hamburker = styled.div`
   color: #707070;
   width: 255px !important;
   box-shadow: 1px 3px 8px #aaa;
-  // left: -255px;
+  /* left: -255px; */
   height: 100%;
   display: block;
   z-index: 999;
   position: fixed;
+  overflow-y: scroll;
 
   @media screen and (max-width: 480px) {
     width: ${(props) => props.animateNav} !important;
     transition: 0.1s;
   }
   @media screen and (max-width: 1680px) {
-    // width: 235px !important;
+    /* width: 235px !important; */
   }
 `;
 export const HamburkerNone = styled.div`
@@ -33,6 +34,6 @@ export const SelectBot = styled.div`
 `;
 
 export const SelectBotWidth = styled.div`
-  height: ${(props) => (props.selectWidth ? "120px" : "0")};
+  height: ${(props) => (props.selectWidth ? "auto" : "0")};
   transition: 0.1s;
 `;

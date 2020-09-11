@@ -6,16 +6,10 @@ const Login = () => {
   const Auth = React.useContext(AuthContext);
 
   const handleClick = () => {
-    console.log("Login");
+    // console.log("Login");
     localStorage.setItem("auth", true);
-    localStorage.setItem(
-      "chatbot1",
-      JSON.stringify({ name: "DLT BOT 1", id: 1 })
-    );
-    localStorage.setItem(
-      "chatbot2",
-      JSON.stringify({ name: "DLT BOT 2", id: 2 })
-    );
+    localStorage.setItem("chatbot1", JSON.stringify({ name: "DLT BOT 1", id: 1 }));
+    localStorage.setItem("chatbot2", JSON.stringify({ name: "DLT BOT 2", id: 2 }));
     localStorage.setItem("currentBot", 1);
 
     Auth.setAuth(true);
