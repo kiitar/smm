@@ -356,7 +356,14 @@ const Monitor = () => {
                     monitorData.data_info.length &&
                     monitorData.data_info.map((v, i) => {
                       return (
-                        <div className="box-message-data-1" key={i} onClick={() => setCurrentLink(v.url)}>
+                        <div
+                          className="box-message-data-1"
+                          key={i}
+                          onClick={() => {
+                            console.log("CLG : ", v.url);
+                            setCurrentLink(v.url);
+                          }}
+                        >
                           <div className="flex-data">
                             <i className="fa fa-twitter icon-message-data"></i>
                             <div className="bold">
