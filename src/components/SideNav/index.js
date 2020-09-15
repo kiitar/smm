@@ -4,8 +4,8 @@ import logo from "../../assets/images/logo.png";
 import "./style.css";
 import { NavContext, DisplayContext } from "../../App";
 import { Hamburker, HamburkerNone, SelectBot, SelectBotWidth } from "./styled";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { currentMenuState, currentKeywordState } from "../../recoil/atoms";
+import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
+import { currentMenuState, currentKeywordState, currentLinkState, monitorDataState } from "../../recoil/atoms";
 import { getKeywordSelector } from "../../recoil/selectors";
 import Divider from "@material-ui/core/Divider";
 const SideNav = (props) => {
@@ -13,18 +13,18 @@ const SideNav = (props) => {
   const Display = React.useContext(DisplayContext);
 
   const [select, setSelect] = useState(false);
-  // const [currentBot, setCurrentBot] = useState(localStorage.getItem("currentBot"));
 
+  const resetCurrentLink = useResetRecoilState(currentLinkState);
+  const resetMonitorData = useResetRecoilState(monitorDataState);
   const [currentMenu, setCurrentMenu] = useRecoilState(currentMenuState);
   const [currentKeyword, setCurrentKeyword] = useRecoilState(currentKeywordState);
   let keywords = useRecoilValue(getKeywordSelector);
+
   // side-effects
-  useEffect(() => {
-    console.log("Begin ");
-  }, [keywords]);
+  // useEffect(() => {
+  // }, [keywords]);
 
   const handleClickMenu = (id) => {
-    // console.log("message");
     setCurrentMenu(id);
     setSelect(false);
     Nav.setAnimateNav("0px");
@@ -32,23 +32,19 @@ const SideNav = (props) => {
   };
 
   const handleSelectBot = (keyword) => {
-    // console.log("l", keyword);
-    // console.log("l", typeof keyword);
+    resetCurrentLink();
+    resetMonitorData();
 
-    // localStorage.setItem("currentBot", id);
-    // setCurrentBot(id);
     setCurrentKeyword({ ...keyword });
     setSelect(!select);
   };
 
   const handleClickCloseNav = () => {
-    // console.log("message");
     Nav.setAnimateNav("0px");
     Display.setDisplay("none");
   };
 
   const handleClickSelectBot = () => {
-    // console.log("Select");
     setSelect(!select);
   };
 
@@ -98,12 +94,6 @@ const SideNav = (props) => {
                       </li>
                     );
                   })}
-
-                  {/* <li onClick={() => handleSelectBot(2)}>
-                    <div className="container-select">
-                      <div className="menu chatbot-menu">{`KeyWord 2`}</div>
-                    </div>
-                  </li> */}
                 </SelectBot>
               </SelectBotWidth>
             </Suspense>

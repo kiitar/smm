@@ -17,16 +17,15 @@ query getDataMonitor(
       start_date:$start_date
       end_date:$end_date
     ){
-      rows
       data_graph
-      data_sentiment
+      data_sentiment {
+        sources_id
+        group_id
+        name
+        count
+      }
+      rows
       data_info {
-        groups{
-            sources{
-                id
-                domain
-            }
-        }
         id
         keywords_id
         url

@@ -3,7 +3,6 @@ import Pagination from "@material-ui/lab/Pagination";
 import Button from "../../components/Button";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { addKeywordState, userState, fetchKeywordState } from "../../recoil/atoms";
-// import { addKeywordSelector } from "../../recoil/selectors";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ModalKeyword from "../../components/ModalKeyword";
@@ -14,24 +13,19 @@ const AddKeyword = () => {
   const [addKeyword, setAddKeyword] = useRecoilState(addKeywordState);
   const [fetchKeyword, setFetchKeyword] = useRecoilState(fetchKeywordState);
   const user = useRecoilValue(userState);
-  // const tar = useRecoilValue(addKeywordSelector);
 
   const handleOnChangePage = (p) => {
-    // console.log(p);
     setAddKeyword({ ...addKeyword, page: p });
   };
 
   const deleteKeyword = async (id) => {
-    // console.log("v : ", id);
     setAddKeyword({ ...addKeyword, loading: true });
     let { data, errors } = await RequestAPI(deleteKeywords, {
       keywords_id: id,
       users_id: user.userId,
       project_id: user.projectId,
     });
-
-    // console.log(`delete data`, data);
-    console.log(`deleteKeywords -> errors`, errors);
+    // console.log(`errors`, errors);
     if (data) {
       setFetchKeyword(!fetchKeyword);
       setAddKeyword({ ...addKeyword, loading: false });
@@ -45,14 +39,14 @@ const AddKeyword = () => {
       offset: parseInt(offset),
       limit: addKeyword.limit,
     });
-    console.log(`fetchData -> errors`, errors);
+    // console.log(`errors`, errors);
     if (data) {
       setAddKeyword({ ...addKeyword, rows: data.getKeywords.rows, keywordsData: [...data.getKeywords.data] });
     }
   };
 
   const stableLoad = useCallback(fetchData, [addKeyword.loading, addKeyword.page]);
-  // addKeyword.loading, addKeyword.page,
+
   useEffect(() => {
     stableLoad();
   }, [stableLoad]);
@@ -106,8 +100,6 @@ const AddKeyword = () => {
                         <td>{v.users.username}</td>
                         <td>{v.created_at}</td>
                         <td className="center">
-                          {/* <Button name="Read" />
-                        <Button name="Edit" /> */}
                           <Button
                             name="Delete"
                             styleBtn="delete"
@@ -119,16 +111,6 @@ const AddKeyword = () => {
                       </tr>
                     );
                   })}
-                  {/* <tr>
-                  <td className="center">1</td>
-                  <td>กรมการขนส่ง</td>
-                  <td>ใบขับขี่</td>
-                  <td>-</td>
-                  <td>10-08-2020</td>
-                  <td className="center">
-                    <Button name="Delete" styleBtn="delete" />
-                  </td>
-                </tr> */}
                 </tbody>
               </table>
             )}

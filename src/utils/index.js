@@ -1,4 +1,4 @@
 import * as useLocalStorage from "./useLocalStorage";
 import { RequestAPI } from "./useRequestAPI";
-
-export { useLocalStorage, RequestAPI };
+import { useDebounce } from "./useDebounce";
+export { useLocalStorage, RequestAPI, useDebounce };
