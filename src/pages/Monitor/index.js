@@ -38,8 +38,7 @@ const Monitor = () => {
   const [page, setPage] = useState(1);
   const [startDate, setStartDate] = useState(moment(Date.now()).subtract(currentDiffDate, "days"));
   const [endDate, setEndDate] = useState(moment(Date.now()));
-  // const [mentionCount, setMentionCount] = useState([27, 2, 3, 4, 5, 6, 7]);
-  let a = [27, 2, 3, 4, 5, 6, 7];
+  const [mentionCount, setMentionCount] = useState([0, 0, 0, 0, 0, 0, 0]);
   const handleOnChangePage = (p) => {
     setPage(p);
   };
@@ -109,18 +108,26 @@ const Monitor = () => {
   };
 
   const data = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    labels: [
+      "10/09/2020 00:00",
+      "10/09/2020 01:00",
+      "10/09/2020 02:00",
+      "10/09/2020 03:00",
+      "10/09/2020 04:00",
+      "10/09/2020 05:00",
+      "10/09/2020 06:00",
+    ],
     datasets: [
       {
         label: "First dataset",
-        data: [33, 53, 85, 41, 44, 65],
+        data: [33, 53, 85, 15, 38, 86, 21],
         // fill: true,
         backgroundColor: "rgba(75,192,192,0.2)",
         borderColor: "rgba(75,192,192,1)",
       },
       {
         label: "Second dataset",
-        data: [33, 25, 35, 51, 54, 76],
+        data: [33, 25, 35, 33, 53, 85, 15],
         // fill: false,
         borderColor: "#742774",
       },
@@ -163,7 +170,24 @@ const Monitor = () => {
 
     if (data) {
       setMonitorData(data.getDataMonitor);
+      let { data_mention } = data.getDataMonitor;
+      let fb = data_mention[0].count;
+      let tw = data_mention[1].count;
+      let yt = data_mention[2].count;
+      let ig = data_mention[3].count;
+      let pt = data_mention[4].count;
+      let sn = data_mention[5].count;
+      let tn = data_mention[6].count;
+      let dd = data_mention[7].count;
+      let dn = data_mention[8].count;
+      let tr = data_mention[9].count;
+      let mc = data_mention[10].count;
+      let mg = data_mention[11].count;
+      let ks = data_mention[12].count;
+      let all = data_mention[13].count;
+
       if (data.getDataMonitor.data_info.length) {
+        setMentionCount([all, fb, tw, yt, ig, pt + sn + tn + dd, dn + tr + mc + mg + ks]);
         setCurrentLink(data.getDataMonitor.data_info[0].url);
       }
     }
@@ -287,7 +311,7 @@ const Monitor = () => {
                     <div className={`checkbox ${v.isSelected ? "checked" : null}`} key={i} onClick={resetList}>
                       <i className={`${v.icon} icon-chechbook`}></i>
                       <span className="span-checkbook font-checkbook">{v.name}</span>
-                      <span className="font-checkbook">{a[i]}</span>
+                      <span className="font-checkbook">{mentionCount[i]}</span>
                     </div>
                   );
                 } else if (v.isSelected && v.id !== 0) {
@@ -295,7 +319,7 @@ const Monitor = () => {
                     <div className={`checkbox checked`} key={i} onClick={() => handleSelect(v)}>
                       <i className={`${v.icon} icon-chechbook`}></i>
                       <span className="span-checkbook font-checkbook">{v.name}</span>
-                      <span className="font-checkbook">{a[i]}</span>
+                      <span className="font-checkbook">{mentionCount[i]}</span>
                     </div>
                   );
                 } else {
@@ -303,7 +327,7 @@ const Monitor = () => {
                     <div className={`checkbox`} key={i} onClick={() => handleSelect(v)}>
                       <i className={`${v.icon} icon-chechbook`}></i>
                       <span className="span-checkbook font-checkbook">{v.name}</span>
-                      <span className="font-checkbook">{a[i]}</span>
+                      <span className="font-checkbook">{mentionCount[i]}</span>
                     </div>
                   );
                 }

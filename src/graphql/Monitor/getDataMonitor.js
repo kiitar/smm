@@ -18,7 +18,7 @@ query getDataMonitor(
       end_date:$end_date
     ){
       data_graph
-      data_sentiment {
+      data_mention {
         sources_id
         group_id
         name
@@ -33,7 +33,7 @@ query getDataMonitor(
         short_content
         author
         post_date
-        group_id
+        sources_id
         is_delete
         e_like
         e_dislike

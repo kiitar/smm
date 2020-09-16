@@ -1,17 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "../Button";
 import ChipInput from "material-ui-chip-input";
 import "./style.css";
 // import { useRecoilState, useResetRecoilState } from "recoil";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { addKeywordState, userState, fetchKeywordState } from "../../recoil/atoms";
+import { addKeywordState, userState, fetchKeywordState, modalConfirmState } from "../../recoil/atoms";
 import { RequestAPI } from "../../utils";
 import { createKeywords } from "../../graphql/Keywords";
+import { Modal as Modals } from "../Modal";
 
 const ModalKeyword = () => {
   const user = useRecoilValue(userState);
   const [addKeyword, setAddKeyword] = useRecoilState(addKeywordState);
   const [fetchKeyword, setFetchKeyword] = useRecoilState(fetchKeywordState);
+  const [modalConfirm, setModalConfirm] = useRecoilState(modalConfirmState);
+  // const [confirm, setConfirm] = useState(false);
+  // const [modal, setModal] = useState(false);
 
   const handleInputKeyword = (e) => {
     setAddKeyword({ ...addKeyword, keywordInput: e.target.value });
@@ -75,9 +79,26 @@ const ModalKeyword = () => {
     console.log(`handleCreateKeyword -> errors`, errors);
   };
 
+  const onClose = () => {
+    setModalConfirm(false);
+  };
+
+  const onSubmit = () => {
+    setModalConfirm(false);
+    handleCreateKeyword();
+  };
+
+  const handleSubmit = () => {
+    // console.log("submit");
+
+    // setWarningMessage("");
+    setModalConfirm(true);
+  };
+
   return (
     <div className="modal">
       <div className="container-create">
+        {modalConfirm && <Modals onClose={onClose} onSubmit={onSubmit} />}
         <div>
           <div>Keyword</div>
           <div className="flex-create">
@@ -112,10 +133,10 @@ const ModalKeyword = () => {
         <div className="flex center">
           <div className="padding-btn">
             <Button
-              name="Training"
+              name="Create Keyword"
               styleBtn="create"
               onClick={() => {
-                handleCreateKeyword();
+                handleSubmit();
               }}
             />
           </div>

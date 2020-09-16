@@ -9,7 +9,7 @@ import { monitorDataState } from "./monitorDataState";
 import { currentLinkState } from "./currentLinkState";
 import { currentDiffDateState } from "./currentDiffDateState";
 import { currentStartDateState } from "./currentStartDateState";
-
+import { modalConfirmState } from "./modalConfirmState";
 export {
   currentMenuState,
   currentKeywordState,
@@ -22,4 +22,5 @@ export {
   sentimentFilterListState,
   monitorDataState,
   currentStartDateState,
+  modalConfirmState,
 };
