@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Route, BrowserRouter as Router, Switch, Redirect } from "react-router-dom";
 import Tranning from "./pages/Tranning";
 import Monitor from "./pages/Monitor";
-import HistoryDetail from "./pages/HistoryDetail";
+import Summary from "./pages/Summary";
 import CreateUser from "./pages/CreateUser";
 import PageRegister from "./pages/PageRegister";
 
@@ -67,10 +67,10 @@ const App = () => {
         <PrivateRoute exact path="/add_keyword" component={AddKeyword} auth={Auth.auth} />
         <PrivateRoute exact path="/tranning" component={Tranning} auth={Auth.auth} />
         <PrivateRoute exact path="/monitor" component={Monitor} auth={Auth.auth} />
-        <PrivateRoute exact path="/history_detail" component={HistoryDetail} auth={Auth.auth} />
+        <PrivateRoute exact path="/summary" component={Summary} auth={Auth.auth} />
         <PrivateRoute exact path="/create_user" component={CreateUser} auth={Auth.auth} />
-        <PrivateRoute exact path="/page_register" component={PageRegister} auth={Auth.auth} />
-        <PrivateRoute exact path="/forget_password" component={ForgetPassword} auth={Auth.auth} />
+        <PrivateLogin exact path="/register" component={PageRegister} auth={Auth.auth} />
+        <PrivateLogin exact path="/forget_password" component={ForgetPassword} auth={Auth.auth} />
         {/* <PrivateRoute exact path="/chatbot" component={ChatBot} auth={Auth.auth} /> */}
 
         <PrivateLogin exact path="/login" component={Login} auth={Auth.auth} />
@@ -90,19 +90,22 @@ const App = () => {
                 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
               ></link>
 
-              <div className="main">
-                {auth && (
-                  <React.Suspense fallback={<p>loading ...</p>}>
-                    <SideNav animateNav={animateNav} display={display} />
-                  </React.Suspense>
-                )}
-                <div className="divnav"></div>
+              {auth && (
+                <div className="main">
+                  {auth && (
+                    <React.Suspense fallback={<p>loading ...</p>}>
+                      <SideNav animateNav={animateNav} display={display} />
+                    </React.Suspense>
+                  )}
+                  <div className="divnav"></div>
 
-                <div className="body">
-                  {auth && <TopNav />}
-                  <Routes />
+                  <div className="body">
+                    {auth && <TopNav />}
+                    <Routes />
+                  </div>
                 </div>
-              </div>
+              )}
+              {!auth && <Routes />}
             </Router>
           </DisplayContext.Provider>
         </NavContext.Provider>

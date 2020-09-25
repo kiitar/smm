@@ -8,7 +8,8 @@ import { addKeywordState, userState, fetchKeywordState, modalConfirmState } from
 import { RequestAPI } from "../../utils";
 import { createKeywords } from "../../graphql/Keywords";
 import { Modal as Modals } from "../Modal";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const ModalKeyword = () => {
   const user = useRecoilValue(userState);
   const [addKeyword, setAddKeyword] = useRecoilState(addKeywordState);
@@ -16,6 +17,14 @@ const ModalKeyword = () => {
   const [modalConfirm, setModalConfirm] = useRecoilState(modalConfirmState);
   // const [confirm, setConfirm] = useState(false);
   // const [modal, setModal] = useState(false);
+
+  const notify = () => {
+    toast.success("บันทึกสำเร็จ !", { position: toast.POSITION.TOP_RIGHT });
+  };
+
+  const warning = () => {
+    toast.error("กรุณากรอกข้อมูล Keyword !", { position: toast.POSITION.TOP_RIGHT });
+  };
 
   const handleInputKeyword = (e) => {
     setAddKeyword({ ...addKeyword, keywordInput: e.target.value });
@@ -44,6 +53,7 @@ const ModalKeyword = () => {
   const handleCreateKeyword = async () => {
     // console.log("create");
     if (!addKeyword.keywordInput.length) {
+      warning();
       return;
     }
 
@@ -63,7 +73,6 @@ const ModalKeyword = () => {
         },
       ],
     });
-
     if (data) {
       setAddKeyword({
         ...addKeyword,
@@ -73,6 +82,7 @@ const ModalKeyword = () => {
         excludeWord: [],
         keywordInput: "",
       });
+      notify();
       setFetchKeyword(!fetchKeyword);
     }
     // console.log(`handleCreateKeyword -> data`, data);
@@ -98,6 +108,7 @@ const ModalKeyword = () => {
   return (
     <div className="modal">
       <div className="container-create">
+        {/* <ToastContainer /> */}
         {modalConfirm && <Modals onClose={onClose} onSubmit={onSubmit} />}
         <div>
           <div>Keyword</div>

@@ -12,7 +12,7 @@ export const getKeywordSelector = selector({
     let { data, errors } = await RequestAPI(getKeywords, {
       users_id: user.userId,
       offset: 0,
-      limit: 10,
+      limit: 100,
     });
     console.log(`errors`, errors);
     console.log(`data`, data);

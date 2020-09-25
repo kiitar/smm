@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from "react";
 import Pagination from "@material-ui/lab/Pagination";
-import Button from "../../components/Button";
+// import Button from "../../components/Button";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { addKeywordState, userState, fetchKeywordState } from "../../recoil/atoms";
 
@@ -8,11 +8,17 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import ModalKeyword from "../../components/ModalKeyword";
 import { RequestAPI } from "../../utils";
 import { getKeywords, deleteKeywords } from "../../graphql/Keywords";
+import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 
 const AddKeyword = () => {
   const [addKeyword, setAddKeyword] = useRecoilState(addKeywordState);
   const [fetchKeyword, setFetchKeyword] = useRecoilState(fetchKeywordState);
   const user = useRecoilValue(userState);
+
+  // const notify = () => {
+  //   toast.success("บันทึกสำเร็จ !", { position: toast.POSITION.TOP_RIGHT });
+  // };
 
   const handleOnChangePage = (p) => {
     setAddKeyword({ ...addKeyword, page: p });
@@ -53,6 +59,7 @@ const AddKeyword = () => {
 
   return (
     <div className="container-main">
+      <ToastContainer />
       <div>{addKeyword.modalCreate && <ModalKeyword />}</div>
       <div className="page-main">
         <div className="padding-page">
@@ -62,6 +69,7 @@ const AddKeyword = () => {
               <button
                 className="btn-create-keyword"
                 onClick={async () => {
+                  // await notify();
                   await setAddKeyword({ ...addKeyword, modalCreate: true });
                 }}
               >
@@ -78,7 +86,7 @@ const AddKeyword = () => {
             )}
 
             {addKeyword.loading !== true && addKeyword.keywordsData.length < 1 && (
-              <p className="center">ยังไม่มีขข้อมูล</p>
+              <p className="center">ยังไม่มีข้อมูล</p>
             )}
             {addKeyword.keywordsData.length > 0 && (
               <table>
@@ -100,13 +108,24 @@ const AddKeyword = () => {
                         <td>{v.users.username}</td>
                         <td>{v.created_at}</td>
                         <td className="center">
-                          <Button
-                            name="Delete"
-                            styleBtn="delete"
-                            onClick={() => {
-                              deleteKeyword(v.id);
-                            }}
-                          />
+                          {/* 
+                            <Button
+                              name="Delete"
+                              styleBtn="delete"
+                              onClick={() => {
+                                deleteKeyword(v.id);
+                              }}
+                            /> */}
+                          <div className="dropdown">
+                            <button className="dropbtn">
+                              ทำรายการ <i className="	fa fa-angle-double-right"></i>
+                            </button>
+                            <div className="dropdown-content">
+                              <a href="#">ดูรายละเอียด </a>
+                              <a href="#">แก้ไข</a>
+                              <a href="#">ลบ</a>
+                            </div>
+                          </div>
                         </td>
                       </tr>
                     );

@@ -7,13 +7,14 @@ import {
   monitorDataState,
   currentLinkState,
   currentDiffDateState,
-  currentStartDateState,
+  // currentStartDateState,
 } from "../../recoil/atoms";
 import moment from "moment";
 import { getDataMonitor } from "../../graphql/Monitor";
 import { RequestAPI } from "../../utils";
+import LineChart from "../../components/LineChart";
 
-import { Line } from "react-chartjs-2";
+// import { Line } from "react-chartjs-2";
 import Pagination from "@material-ui/lab/Pagination";
 import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
@@ -22,6 +23,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import "date-fns";
 
 const Monitor = () => {
+  // const randomInt = () => Math.floor(Math.random() * (10 - 1 + 1)) + 1;
+
   // Recoil State
   const currentKeyword = useRecoilValue(currentKeywordState);
   const [currentLink, setCurrentLink] = useRecoilState(currentLinkState);
@@ -36,9 +39,12 @@ const Monitor = () => {
   // const resetCurrentDiffDate = useResetRecoilState(currentDiffDateState);
 
   const [page, setPage] = useState(1);
-  const [startDate, setStartDate] = useState(moment(Date.now()).subtract(currentDiffDate, "days"));
+  const [update, setUpdate] = useState(null);
+  const [graphData, setGraphData] = useState(null);
+  const [startDate, setStartDate] = useState(moment(Date.now()).subtract(1, "month"));
   const [endDate, setEndDate] = useState(moment(Date.now()));
   const [mentionCount, setMentionCount] = useState([0, 0, 0, 0, 0, 0, 0]);
+  const [sentimentCount, setSentimentCount] = useState([0, 0, 0]);
   const handleOnChangePage = (p) => {
     setPage(p);
   };
@@ -47,6 +53,7 @@ const Monitor = () => {
     setCurrentDiffDate(null);
     setEndDate(date);
   };
+
   const handleStartDate = (date) => {
     setCurrentDiffDate(null);
     setStartDate(date);
@@ -66,7 +73,6 @@ const Monitor = () => {
       });
       arr.splice(v.id, 1, { id: v.id, sid: v.sid, name: v.name, isSelected: !v.isSelected, icon: v.icon });
       let check = arr.filter((v) => v.isSelected === true);
-      console.log(`handleSelect -> check`, check);
       resetCurrentLink();
       resetMonitorData();
       if (check.length === 6) {
@@ -94,7 +100,7 @@ const Monitor = () => {
   };
 
   const handleSelectSentiment = (v, i) => {
-    console.log(v);
+    // console.log(v);
     let arr = sentimentFilterList.map((v) => v);
     arr.splice(i, 1, { id: v.id, name: v.name, isSelected: !v.isSelected });
     let check = arr.filter((v) => v.isSelected === true);
@@ -105,33 +111,6 @@ const Monitor = () => {
       setSentimentFilterList([...arr]);
       return;
     }
-  };
-
-  const data = {
-    labels: [
-      "10/09/2020 00:00",
-      "10/09/2020 01:00",
-      "10/09/2020 02:00",
-      "10/09/2020 03:00",
-      "10/09/2020 04:00",
-      "10/09/2020 05:00",
-      "10/09/2020 06:00",
-    ],
-    datasets: [
-      {
-        label: "First dataset",
-        data: [33, 53, 85, 15, 38, 86, 21],
-        // fill: true,
-        backgroundColor: "rgba(75,192,192,0.2)",
-        borderColor: "rgba(75,192,192,1)",
-      },
-      {
-        label: "Second dataset",
-        data: [33, 25, 35, 33, 53, 85, 15],
-        // fill: false,
-        borderColor: "#742774",
-      },
-    ],
   };
 
   // The first commit of Material-UI
@@ -169,27 +148,41 @@ const Monitor = () => {
     });
 
     if (data) {
+      let labels = data.getDataMonitor.data_graph.labels;
+      let datasets = data.getDataMonitor.data_graph.datasets;
+
       setMonitorData(data.getDataMonitor);
-      let { data_mention } = data.getDataMonitor;
-      let fb = data_mention[0].count;
-      let tw = data_mention[1].count;
-      let yt = data_mention[2].count;
-      let ig = data_mention[3].count;
-      let pt = data_mention[4].count;
-      let sn = data_mention[5].count;
-      let tn = data_mention[6].count;
-      let dd = data_mention[7].count;
-      let dn = data_mention[8].count;
-      let tr = data_mention[9].count;
-      let mc = data_mention[10].count;
-      let mg = data_mention[11].count;
-      let ks = data_mention[12].count;
-      let all = data_mention[13].count;
+
+      if (data.getDataMonitor.data_mention) {
+        let fb = data.getDataMonitor.data_mention[0].count;
+        let yt = data.getDataMonitor.data_mention[2].count;
+        let tw = data.getDataMonitor.data_mention[1].count;
+        let ig = data.getDataMonitor.data_mention[3].count;
+        let pt = data.getDataMonitor.data_mention[4].count;
+        let sn = data.getDataMonitor.data_mention[5].count;
+        let tn = data.getDataMonitor.data_mention[6].count;
+        let dd = data.getDataMonitor.data_mention[7].count;
+        let dn = data.getDataMonitor.data_mention[8].count;
+        let tr = data.getDataMonitor.data_mention[9].count;
+        let mc = data.getDataMonitor.data_mention[10].count;
+        let mg = data.getDataMonitor.data_mention[11].count;
+        let ks = data.getDataMonitor.data_mention[12].count;
+        let all = data.getDataMonitor.data_mention[13].count;
+        setMentionCount([all, fb, tw, yt, ig, pt + sn + tn + dd, dn + tr + mc + mg + ks]);
+      }
+      if (data.getDataMonitor.data_sentiment) {
+        let neg = data.getDataMonitor.data_sentiment[0].count;
+        let na = data.getDataMonitor.data_sentiment[1].count;
+        let pos = data.getDataMonitor.data_sentiment[2].count;
+        setSentimentCount([neg, na, pos]);
+      }
 
       if (data.getDataMonitor.data_info.length) {
-        setMentionCount([all, fb, tw, yt, ig, pt + sn + tn + dd, dn + tr + mc + mg + ks]);
         setCurrentLink(data.getDataMonitor.data_info[0].url);
       }
+
+      setGraphData({ labels: labels, datasets: datasets });
+      setUpdate(true);
     }
   };
 
@@ -203,12 +196,7 @@ const Monitor = () => {
   ]);
 
   React.useEffect(() => {
-    // effect
     stableLoad();
-    return () => {
-      console.log("unmount");
-      // resetCurrentDiffDate();
-    };
   }, [stableLoad]);
 
   return (
@@ -295,13 +283,18 @@ const Monitor = () => {
           </div>
 
           <div className="chart-1">
-            <Line
-              data={data}
-              width={100}
-              height={50}
-              options={{ responsive: true, maintainAspectRatio: false }}
-              className="chart-data"
-            />
+            {graphData !== null && (
+              // <Line
+              //   redraw={true}
+              //   // key={Math.random()}
+              //   data={graphData}
+              //   width={100}
+              //   height={50}
+              //   options={{ responsive: true, maintainAspectRatio: false }}
+              //   className="chart-data"
+              // />
+              <LineChart labels={graphData.labels} datasets={graphData.datasets} redraw={update} />
+            )}
           </div>
           <div className="box-checkbox flex">
             <div className=" flex-check">
@@ -346,7 +339,7 @@ const Monitor = () => {
                     }}
                   >
                     <div>{name}</div>
-                    <div className="number-Negative">600</div>
+                    <div className="number-Negative">{sentimentCount[i]}</div>
                     <div>message</div>
                   </div>
                 );
@@ -377,7 +370,7 @@ const Monitor = () => {
                     </div>
                   )}
                   {monitorData !== null &&
-                    monitorData.data_info.length &&
+                    monitorData.data_info.length > 0 &&
                     monitorData.data_info.map((v, i) => {
                       return (
                         <div

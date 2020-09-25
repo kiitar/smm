@@ -8,9 +8,9 @@ const Login = () => {
   const handleClick = () => {
     // console.log("Login");
     localStorage.setItem("auth", true);
-    localStorage.setItem("chatbot1", JSON.stringify({ name: "DLT BOT 1", id: 1 }));
-    localStorage.setItem("chatbot2", JSON.stringify({ name: "DLT BOT 2", id: 2 }));
-    localStorage.setItem("currentBot", 1);
+    // localStorage.setItem("chatbot1", JSON.stringify({ name: "DLT BOT 1", id: 1 }));
+    // localStorage.setItem("chatbot2", JSON.stringify({ name: "DLT BOT 2", id: 2 }));
+    // localStorage.setItem("currentBot", 1);
 
     Auth.setAuth(true);
   };
@@ -33,7 +33,7 @@ const Login = () => {
         <div className="txt-login">
           <p className="txt-name">กรมการขนส่งทางบก</p>
           <p className="txt-name">Department of Land Transport</p>
-          <p className="txt-name">Social Monitoring and Ai Chatbot</p>
+          <p className="txt-name">Social Monitoring</p>
         </div>
         <div className="container-input-login">
           <div className="icon-input">

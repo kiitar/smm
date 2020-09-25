@@ -1,3 +1,52 @@
+.dropbtn {
+  background-color: #008be7;
+  color: white;
+  font-family: "Prompt", sans-serif;
+  padding: 16px;
+  font-size: 0.9em !important;
+  border: none;
+  border-radius: 10px;
+  min-width: 160px;
+  cursor: pointer;
+  outline: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  /* background: gold; */
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  min-width: 160px;
+  margin-left: 70px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #007fd3;
+}
+
 .green {
   color: rgb(4, 189, 4);
 }
@@ -595,6 +644,17 @@ tr:hover {
   margin: 10px 0;
   border-radius: 10px;
 }
+.box-keyword-2 {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  box-shadow: 1px 1px 8px #aaaaaa;
+  padding: 15px;
+  /* align-items: center; */
+  text-align: left;
+  margin: 10px 0;
+  border-radius: 10px;
+}
 .box-keyword-1 {
   display: flex;
   /* background: white; */
@@ -652,7 +712,33 @@ tr:hover {
   padding: 15px;
   border-radius: 10px;
   height: auto;
+  position: relative;
 }
+.btn-top {
+  background: white;
+  font-size: 1em;
+  padding: 10px;
+  border-radius: 10px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  outline: none;
+  margin-right: 5px;
+  border: 1.9px solid #000;
+  border-bottom: none;
+  font-weight: bold;
+  z-index: 9999999;
+  cursor: pointer;
+}
+.active-border-bottom {
+  height: 43px;
+}
+.line-bottom {
+  margin-top: -2.5px;
+  height: -5px;
+  width: 100%;
+  border-bottom: 2px solid #444;
+}
+
 .flex-display {
   display: flex;
 }
@@ -782,16 +868,24 @@ tr:hover {
 }
 .container-register {
   background: white;
-  height: 100vh;
+
+  /* height: 100vh; */
   text-align: center;
+  /* margin: 0 auto; */
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: block;
+  z-index: 999;
 }
 .box-register {
   /* background: hotpink; */
   width: 600px;
   height: 500px;
   margin: 0 auto;
+  /* margin: 25px 0; */
   top: 10%;
-  left: 40%;
+  left: 30%;
   position: absolute;
 }
 .box-register-body {

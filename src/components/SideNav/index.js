@@ -5,23 +5,42 @@ import "./style.css";
 import { NavContext, DisplayContext } from "../../App";
 import { Hamburker, HamburkerNone, SelectBot, SelectBotWidth } from "./styled";
 import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
-import { currentMenuState, currentKeywordState, currentLinkState, monitorDataState } from "../../recoil/atoms";
+import {
+  currentMenuState,
+  currentKeywordState,
+  currentLinkState,
+  monitorDataState,
+  userState,
+} from "../../recoil/atoms";
 import { getKeywordSelector } from "../../recoil/selectors";
 import Divider from "@material-ui/core/Divider";
+import { getKeywords } from "../../graphql/Keywords";
+import { RequestAPI } from "../../utils";
 const SideNav = (props) => {
   const Nav = React.useContext(NavContext);
   const Display = React.useContext(DisplayContext);
 
   const [select, setSelect] = useState(false);
+  // const [keywords, setKeywords] = useState(null);
 
   const resetCurrentLink = useResetRecoilState(currentLinkState);
   const resetMonitorData = useResetRecoilState(monitorDataState);
   const [currentMenu, setCurrentMenu] = useRecoilState(currentMenuState);
   const [currentKeyword, setCurrentKeyword] = useRecoilState(currentKeywordState);
   let keywords = useRecoilValue(getKeywordSelector);
+  // let [user] = useResetRecoilState(userState);
 
   // side-effects
-  // useEffect(() => {
+  // useEffect(async () => {
+  //   let { data, errors } = await RequestAPI(getKeywords, {
+  //     users_id: user.userId,
+  //     offset: 0,
+  //     limit: 100,
+  //   });
+
+  //   console.log(`errors`, errors);
+  //   console.log(`data`, data);
+  //   setKeywords(data.getKeywords.data);
   // }, [keywords]);
 
   const handleClickMenu = (id) => {
@@ -118,7 +137,7 @@ const SideNav = (props) => {
                   onClick={() => handleClickMenu(3)}
                   className={`nav-container ${currentMenu === 3 ? "active" : null}`}
                 >
-                  <Link className="link" to="/history_detail">
+                  <Link className="link" to="/summary">
                     <div className={`${currentMenu === 3 ? "menu-active" : "menu"}`}>
                       <i className="fa fa-rotate-left icon_nav"></i>
                       Summary
