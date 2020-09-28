@@ -17,6 +17,17 @@ query getDataMonitor(
       start_date:$start_date
       end_date:$end_date
     ){
+      data_sentiment {
+        id
+        name
+        count
+      }
+      data_mention {
+        sources_id
+        group_id
+        name
+        count
+      }
       data_graph {
           labels
           datasets {

@@ -10,7 +10,7 @@ import { createKeywords } from "../../graphql/Keywords";
 import { Modal as Modals } from "../Modal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const ModalKeyword = () => {
+const ModalKeyword = ({ action }) => {
   const user = useRecoilValue(userState);
   const [addKeyword, setAddKeyword] = useRecoilState(addKeywordState);
   const [fetchKeyword, setFetchKeyword] = useRecoilState(fetchKeywordState);
@@ -113,44 +113,78 @@ const ModalKeyword = () => {
         <div>
           <div>Keyword</div>
           <div className="flex-create">
-            <textarea
-              className="text-area"
-              placeholder="เพิ่ม Keyword"
-              maxlength="50"
-              onChange={(e) => handleInputKeyword(e)}
-            />
+            {action === "view" ? (
+              <textarea
+                className="text-area"
+                placeholder="เพิ่ม Keyword"
+                maxlength="50"
+                value={addKeyword.keywordInput}
+                onChange={(e) => handleInputKeyword(e)}
+                disabled
+              />
+            ) : (
+              <textarea
+                className="text-area"
+                placeholder="เพิ่ม Keyword"
+                maxlength="50"
+                value={addKeyword.keywordInput}
+                onChange={(e) => handleInputKeyword(e)}
+              />
+            )}
+
             <em>{`${addKeyword.keywordInput.length}/50`}</em>
           </div>
           <div style={{ margin: "20px 0" }} />
         </div>
         <div>include Word</div>
-        <ChipInput
-          value={addKeyword.includeWord}
-          onAdd={(chip) => handleAddInclude(chip)}
-          onDelete={(chip, index) => handleDeleteInclude(chip, index)}
-        />
+        {action === "view" ? (
+          <ChipInput
+            value={addKeyword.includeWord}
+            onAdd={(chip) => handleAddInclude(chip)}
+            onDelete={(chip, index) => handleDeleteInclude(chip, index)}
+            disabled
+          />
+        ) : (
+          <ChipInput
+            value={addKeyword.includeWord}
+            onAdd={(chip) => handleAddInclude(chip)}
+            onDelete={(chip, index) => handleDeleteInclude(chip, index)}
+          />
+        )}
+
         <div style={{ margin: "20px 0" }} />
         <div>exclude Word</div>
-        <ChipInput
-          value={addKeyword.excludeWord}
-          onAdd={(chip) => handleAddExclude(chip)}
-          onDelete={(chip, index) => handleDeleteExclude(chip, index)}
-        />
+        {action === "view" ? (
+          <ChipInput
+            value={addKeyword.excludeWord}
+            onAdd={(chip) => handleAddExclude(chip)}
+            onDelete={(chip, index) => handleDeleteExclude(chip, index)}
+            disabled
+          />
+        ) : (
+          <ChipInput
+            value={addKeyword.excludeWord}
+            onAdd={(chip) => handleAddExclude(chip)}
+            onDelete={(chip, index) => handleDeleteExclude(chip, index)}
+          />
+        )}
+
         <div style={{ margin: "20px 0" }} />
-        {/* <div style={{ margin: "100px 0" }}></div> */}
         {addKeyword.errorMessage !== "" && (
           <p style={{ color: "orange" }}>{`* Warning ! ${addKeyword.errorMessage} `}</p>
         )}
         <div className="flex center">
-          <div className="padding-btn">
-            <Button
-              name="Create Keyword"
-              styleBtn="create"
-              onClick={() => {
-                handleSubmit();
-              }}
-            />
-          </div>
+          {action === "create" && (
+            <div className="padding-btn">
+              <Button
+                name="Create Keyword"
+                styleBtn="create"
+                onClick={() => {
+                  handleSubmit();
+                }}
+              />
+            </div>
+          )}
 
           <div className="padding-btn">
             <Button
@@ -160,6 +194,7 @@ const ModalKeyword = () => {
                 setAddKeyword({
                   ...addKeyword,
                   modalCreate: false,
+                  modalView: false,
                   includeWord: [],
                   excludeWord: [],
                   keywordInput: "",

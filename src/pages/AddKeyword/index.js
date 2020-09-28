@@ -1,8 +1,8 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import Pagination from "@material-ui/lab/Pagination";
 // import Button from "../../components/Button";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { addKeywordState, userState, fetchKeywordState } from "../../recoil/atoms";
+import { addKeywordState, userState, fetchKeywordState, modalConfirmState } from "../../recoil/atoms";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ModalKeyword from "../../components/ModalKeyword";
@@ -10,15 +10,15 @@ import { RequestAPI } from "../../utils";
 import { getKeywords, deleteKeywords } from "../../graphql/Keywords";
 import { ToastContainer, toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
+import { Modal as Modals } from "../../components/Modal";
 
 const AddKeyword = () => {
   const [addKeyword, setAddKeyword] = useRecoilState(addKeywordState);
   const [fetchKeyword, setFetchKeyword] = useRecoilState(fetchKeywordState);
   const user = useRecoilValue(userState);
-
-  // const notify = () => {
-  //   toast.success("บันทึกสำเร็จ !", { position: toast.POSITION.TOP_RIGHT });
-  // };
+  const [modalConfirm, setModalConfirm] = useRecoilState(modalConfirmState);
+  const [deleteId, setDeleteId] = useState(null);
+  const [view, setView] = useState(false);
 
   const handleOnChangePage = (p) => {
     setAddKeyword({ ...addKeyword, page: p });
@@ -34,6 +34,7 @@ const AddKeyword = () => {
     // console.log(`errors`, errors);
     if (data) {
       setFetchKeyword(!fetchKeyword);
+      toast.success("บันทึกสำเร็จ !", { position: toast.POSITION.TOP_RIGHT });
       setAddKeyword({ ...addKeyword, loading: false });
     }
   };
@@ -57,10 +58,27 @@ const AddKeyword = () => {
     stableLoad();
   }, [stableLoad]);
 
+  const onClose = () => {
+    setModalConfirm(false);
+  };
+
+  const onSubmit = () => {
+    setModalConfirm(false);
+    deleteKeyword(deleteId);
+  };
+
+  const handleSubmit = (id) => {
+    setDeleteId(id);
+    setModalConfirm(true);
+  };
+
   return (
     <div className="container-main">
       <ToastContainer />
-      <div>{addKeyword.modalCreate && <ModalKeyword />}</div>
+      {modalConfirm && <Modals onClose={onClose} onSubmit={onSubmit} />}
+      {/* <div>{addKeyword.modalCreate && <ModalKeyword action={"create"} />}</div> */}
+      {addKeyword.modalCreate && <ModalKeyword action={"create"} />}
+      {addKeyword.modalView && <ModalKeyword action={"view"} />}
       <div className="page-main">
         <div className="padding-page">
           <div className="top-title">
@@ -69,7 +87,6 @@ const AddKeyword = () => {
               <button
                 className="btn-create-keyword"
                 onClick={async () => {
-                  // await notify();
                   await setAddKeyword({ ...addKeyword, modalCreate: true });
                 }}
               >
@@ -101,6 +118,7 @@ const AddKeyword = () => {
                 </thead>
                 <tbody>
                   {addKeyword.keywordsData.map((v, i) => {
+                    console.log(`v`, v);
                     return (
                       <tr key={i}>
                         <td className="center">{parseInt(`${addKeyword.page - 1}${i + 1}`)}</td>
@@ -121,9 +139,27 @@ const AddKeyword = () => {
                               ทำรายการ <i className="	fa fa-angle-double-right"></i>
                             </button>
                             <div className="dropdown-content">
-                              <a href="#">ดูรายละเอียด </a>
-                              <a href="#">แก้ไข</a>
-                              <a href="#">ลบ</a>
+                              <a
+                                onClick={() => {
+                                  setAddKeyword({
+                                    ...addKeyword,
+                                    keywordInput: v.keyword,
+                                    includeWord: v.require_keyword,
+                                    excludeWord: v.exclude_keyword,
+                                    modalView: true,
+                                  });
+                                }}
+                              >
+                                ดูรายละเอียด{" "}
+                              </a>
+                              {/* <a>แก้ไข</a> */}
+                              <a
+                                onClick={() => {
+                                  handleSubmit(v.id);
+                                }}
+                              >
+                                ลบ
+                              </a>
                             </div>
                           </div>
                         </td>

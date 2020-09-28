@@ -37,6 +37,9 @@
   border: none;
   resize: none;
 }
+.text-area:disabled {
+  cursor: not-allowed;
+}
 .text-area:focus {
   outline: none;
 }
