@@ -18,7 +18,7 @@ const AddKeyword = () => {
   const user = useRecoilValue(userState);
   const [modalConfirm, setModalConfirm] = useRecoilState(modalConfirmState);
   const [deleteId, setDeleteId] = useState(null);
-  const [view, setView] = useState(false);
+  // const [view, setView] = useState(false);
 
   const handleOnChangePage = (p) => {
     setAddKeyword({ ...addKeyword, page: p });
