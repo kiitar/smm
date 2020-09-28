@@ -7,6 +7,7 @@ import {
   monitorDataState,
   currentLinkState,
   currentDiffDateState,
+  itemFocusState,
   // currentStartDateState,
 } from "../../recoil/atoms";
 import moment from "moment";
@@ -28,6 +29,7 @@ const Monitor = () => {
   // Recoil State
   const currentKeyword = useRecoilValue(currentKeywordState);
   const [currentLink, setCurrentLink] = useRecoilState(currentLinkState);
+  const [itemFocus, setItemFocus] = useRecoilState(itemFocusState);
   const [currentDiffDate, setCurrentDiffDate] = useRecoilState(currentDiffDateState);
   const [sentimentFilterList, setSentimentFilterList] = useRecoilState(sentimentFilterListState);
   const [monitorData, setMonitorData] = useRecoilState(monitorDataState);
@@ -39,6 +41,8 @@ const Monitor = () => {
   // const resetCurrentDiffDate = useResetRecoilState(currentDiffDateState);
 
   const [page, setPage] = useState(1);
+  // const [currentLink, setCurrentLink] = useState("");
+
   const [update, setUpdate] = useState(null);
   const [graphData, setGraphData] = useState(null);
   const [startDate, setStartDate] = useState(moment(Date.now()).subtract(1, "month"));
@@ -46,6 +50,7 @@ const Monitor = () => {
   const [mentionCount, setMentionCount] = useState([0, 0, 0, 0, 0, 0, 0]);
   const [sentimentCount, setSentimentCount] = useState([0, 0, 0]);
   const handleOnChangePage = (p) => {
+    setItemFocus(0);
     setPage(p);
   };
 
@@ -153,6 +158,10 @@ const Monitor = () => {
 
       setMonitorData(data.getDataMonitor);
 
+      if (data.getDataMonitor.data_info.length) {
+        setCurrentLink(data.getDataMonitor.data_info[0].url);
+      }
+
       if (data.getDataMonitor.data_mention) {
         let fb = data.getDataMonitor.data_mention[0].count;
         let yt = data.getDataMonitor.data_mention[2].count;
@@ -177,10 +186,6 @@ const Monitor = () => {
         setSentimentCount([neg, na, pos]);
       }
 
-      if (data.getDataMonitor.data_info.length) {
-        setCurrentLink(data.getDataMonitor.data_info[0].url);
-      }
-
       setGraphData({ labels: labels, datasets: datasets });
       setUpdate(true);
     }
@@ -194,6 +199,10 @@ const Monitor = () => {
     startDate,
     endDate,
   ]);
+
+  // React.useEffect(() => {
+  //   console.log("tar");
+  // }, [currentLink, itemFocus]);
 
   React.useEffect(() => {
     stableLoad();
@@ -374,15 +383,16 @@ const Monitor = () => {
                     monitorData.data_info.map((v, i) => {
                       return (
                         <div
-                          className="box-message-data-1"
+                          className={i === itemFocus ? "box-message-data-1-active" : "box-message-data-1"}
                           key={i}
                           onClick={() => {
-                            console.log("CLG : ", v.url);
+                            // console.log("CLG : ", v.url);
+                            setItemFocus(i);
                             setCurrentLink(v.url);
                           }}
                         >
                           <div className="flex-data">
-                            <i className="fa fa-twitter icon-message-data"></i>
+                            <i className="fa fa-share-alt icon-message-data"></i>
                             <div className="bold">
                               <div className="font-data-title">{v.title}</div>
                               <div className="font-data ">
@@ -390,6 +400,11 @@ const Monitor = () => {
                                 <span className="icon-date-1">
                                   {moment(parseInt(v.post_date)).format("DD-MM-YYYY")}
                                 </span>
+                                <a
+                                  href={`${v.url}`}
+                                  target={"blank"}
+                                  style={{ color: "blue", textDecoration: "underline" }}
+                                >{`${v.domain}`}</a>
                                 <div
                                   className={`${
                                     v.sentiment === "positive" ? "green" : v.sentiment === "negative" ? "red" : null

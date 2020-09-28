@@ -28,20 +28,20 @@ const App = () => {
   const [auth, setAuth] = useState(false);
   const [animateNav, setAnimateNav] = useState("0px");
   const [display, setDisplay] = useState("none");
-  const [currentBot, setCurrentBot] = useState(1);
+  // const [currentBot, setCurrentBot] = useState(1);
   const checkAuth = () => {
     const authState = localStorage.getItem("auth");
     if (authState) setAuth(authState);
 
-    const chatbotState = localStorage.getItem("currentBot");
-    if (chatbotState) {
-      setCurrentBot(chatbotState);
-    }
+    // const chatbotState = localStorage.getItem("currentBot");
+    // if (chatbotState) {
+    //   setCurrentBot(chatbotState);
+    // }
   };
 
   useEffect(() => {
     checkAuth();
-  }, [currentBot]);
+  }, []);
 
   const PrivateRoute = ({ auth, component: Component, ...rest }) => {
     return (
@@ -81,35 +81,35 @@ const App = () => {
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>
-      <SelectContext.Provider value={{ currentBot, setCurrentBot }}>
-        <NavContext.Provider value={{ animateNav, setAnimateNav }}>
-          <DisplayContext.Provider value={{ display, setDisplay }}>
-            <Router>
-              <link
-                rel="stylesheet"
-                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-              ></link>
+      {/* <SelectContext.Provider value={{ currentBot, setCurrentBot }}> */}
+      <NavContext.Provider value={{ animateNav, setAnimateNav }}>
+        <DisplayContext.Provider value={{ display, setDisplay }}>
+          <Router>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+            ></link>
 
-              {auth && (
-                <div className="main">
-                  {auth && (
-                    <React.Suspense fallback={<p>loading ...</p>}>
-                      <SideNav animateNav={animateNav} display={display} />
-                    </React.Suspense>
-                  )}
-                  <div className="divnav"></div>
+            {auth && (
+              <div className="main">
+                {auth && (
+                  <React.Suspense fallback={<p>loading ...</p>}>
+                    <SideNav animateNav={animateNav} display={display} />
+                  </React.Suspense>
+                )}
+                <div className="divnav"></div>
 
-                  <div className="body">
-                    {auth && <TopNav />}
-                    <Routes />
-                  </div>
+                <div className="body">
+                  {auth && <TopNav />}
+                  <Routes />
                 </div>
-              )}
-              {!auth && <Routes />}
-            </Router>
-          </DisplayContext.Provider>
-        </NavContext.Provider>
-      </SelectContext.Provider>
+              </div>
+            )}
+            {!auth && <Routes />}
+          </Router>
+        </DisplayContext.Provider>
+      </NavContext.Provider>
+      {/* </SelectContext.Provider> */}
     </AuthContext.Provider>
   );
 };

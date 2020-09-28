@@ -11,6 +11,7 @@ import {
   currentLinkState,
   monitorDataState,
   userState,
+  itemFocusState,
 } from "../../recoil/atoms";
 import { getKeywordSelector } from "../../recoil/selectors";
 import Divider from "@material-ui/core/Divider";
@@ -24,6 +25,7 @@ const SideNav = (props) => {
   // const [keywords, setKeywords] = useState(null);
 
   const resetCurrentLink = useResetRecoilState(currentLinkState);
+  const resetItemFocus = useResetRecoilState(itemFocusState);
   const resetMonitorData = useResetRecoilState(monitorDataState);
   const [currentMenu, setCurrentMenu] = useRecoilState(currentMenuState);
   const [currentKeyword, setCurrentKeyword] = useRecoilState(currentKeywordState);
@@ -51,6 +53,7 @@ const SideNav = (props) => {
   };
 
   const handleSelectBot = (keyword) => {
+    resetItemFocus();
     resetCurrentLink();
     resetMonitorData();
 

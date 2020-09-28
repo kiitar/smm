@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Pagination from "@material-ui/lab/Pagination";
-import { Line } from "react-chartjs-2";
+// import { Line } from "react-chartjs-2";
 import "date-fns";
 import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
@@ -10,20 +10,17 @@ import { currentKeywordState, currentDiffDateState } from "../../recoil/atoms";
 import { RequestAPI } from "../../utils";
 import { useRecoilState, useRecoilValue } from "recoil";
 import moment from "moment";
-import ReactWordcloud from "react-wordcloud";
+// import ReactWordcloud from "react-wordcloud";
+import WordCloud from "../../components/WordCloud";
 import "tippy.js/dist/tippy.css";
 import "tippy.js/animations/scale.css";
-
-const options = {
-  rotations: 1,
-  rotationAngles: [0],
-  fontFamily: "Prompt",
-  fontSizes: [14, 38],
-};
+import MentionChart from "../../components/MentionChart";
+import SentimentChart from "../../components/SentimentChart";
 
 const Summary = () => {
   // Recoil State
   const currentKeyword = useRecoilValue(currentKeywordState);
+  // console.log(`Summary -> currentKeyword`, currentKeyword);
   const [currentDiffDate, setCurrentDiffDate] = useRecoilState(currentDiffDateState);
   // Recoil State
 
@@ -35,12 +32,19 @@ const Summary = () => {
   // const [graphSentiment, setGraphSentiment] = useState(null);
   // const [graphSources, setGraphSources] = useState(null);
   const [mostPopularMention, setMostPopularMention] = useState(null);
+  console.log(`Summary -> mostPopularMention`, mostPopularMention);
   const [mostPopularDate, setMostPopularDate] = useState(null);
+  console.log(`Summary -> mostPopularDate`, mostPopularDate);
   const [mostSite, setMostSite] = useState(null);
-  const [sources, setSources] = useState(null);
-  const [stats, setStats] = useState(null);
+  const [sources, setSources] = useState([]);
+  const [stats, setStats] = useState([]);
   const [summaryState, setSummaryState] = useState(null);
   const [wordCloud, setWordCloud] = useState(null);
+  const [update, setUpdate] = useState(null);
+  const [update2, setUpdate2] = useState(null);
+  const [mentionGraph, setMentionGraph] = useState(null);
+  const [sentimentGraph, setSentimentGraph] = useState(null);
+
   // React useState
 
   const handleEndDate = (date) => {
@@ -80,12 +84,11 @@ const Summary = () => {
       start_date: std,
       end_date: end,
     });
-
+    console.log(`fetchData -> errors`, errors);
     if (data) {
-      console.log("data : ", data.getSummary);
       let {
-        // graph_sentiment,
-        // graph_sources,
+        graph_sentiment,
+        graph_sources,
         most_popular,
         most_site,
         sources,
@@ -93,28 +96,31 @@ const Summary = () => {
         summary,
         word_cloud,
       } = data.getSummary;
-
-      setSummaryState([...summary]);
+      console.log(`Summary -> most_popular`, most_popular);
+      console.log(`Summary -> most_site`, most_site);
+      console.log(`Summary -> sources`, sources);
+      console.log(`Summary -> stats`, stats);
+      console.log(`Summary -> summary`, summary);
+      console.log(`Summary -> word_cloud`, word_cloud);
+      setSummaryState(summary);
       setSources(sources);
       setStats(stats);
       setMostSite(most_site);
       setWordCloud(word_cloud);
       setMostPopularMention(most_popular.sources_reach);
       setMostPopularDate(most_popular.sources_date);
+      setMentionGraph(graph_sources);
+      setSentimentGraph(graph_sentiment);
+      setUpdate(true);
+      setUpdate2(true);
     }
   };
 
   const stableLoad = useCallback(fetchData, [currentKeyword, page, startDate, endDate]);
 
   useEffect(() => {
-    // effect
     stableLoad();
-    return () => {
-      console.log("unmount");
-    };
   }, [stableLoad]);
-
-  console.log("src : ", sources);
 
   return (
     <div className="container-main">
@@ -241,7 +247,7 @@ const Summary = () => {
                               <div className="font-data ">
                                 <i className="fa fa-calendar icon-date"></i>
                                 <span className="icon-date-1">{`${moment(v.date).format("DD-MM-YYYY")}`}</span>
-                                <div className="green margin">{`${v.sources}`}</div>
+                                <div className="green margin">{`${v.sources.length > 0 ? v.sources : ""}`}</div>
                               </div>
                             </div>
                           </div>
@@ -263,7 +269,7 @@ const Summary = () => {
                               <div className="font-data ">
                                 <i className="fa fa-calendar icon-date"></i>
                                 <span className="icon-date-1">{`${moment(v.date).format("DD-MM-YYYY")}`}</span>
-                                <div className="green margin">{`${v.sources}`}</div>
+                                <div className="green margin">{`${v.sources.length > 0 ? v.sources : ""}`}</div>
                               </div>
                             </div>
                           </div>
@@ -311,14 +317,22 @@ const Summary = () => {
               <div className="box-keyword-1">
                 <div className="flex-1">
                   <div className="title-summary">MENTIONS</div>
-                  {summaryState !== null && <div style={{ textAlign: "center" }}>{`${summaryState[0].count}`}</div>}
-                  {summaryState == null && <div style={{ textAlign: "center" }}>{"0"}</div>}
+                  {summaryState !== null && summaryState !== undefined && (
+                    <div style={{ textAlign: "center" }}>{`${summaryState[0].count}`}</div>
+                  )}
+                  {(summaryState === null || summaryState === undefined) && (
+                    <div style={{ textAlign: "center" }}>{"0"}</div>
+                  )}
                   {/* <div className="message-summary green">+35 (+100%)</div> */}
                 </div>
                 <div className="flex-1">
                   <div className="title-summary">REACH</div>
-                  {summaryState !== null && <div style={{ textAlign: "center" }}>{`${summaryState[1].count}`}</div>}
-                  {summaryState == null && <div style={{ textAlign: "center" }}>{"0"}</div>}
+                  {summaryState !== null && summaryState !== undefined && (
+                    <div style={{ textAlign: "center" }}>{`${summaryState[1].count}`}</div>
+                  )}
+                  {(summaryState === null || summaryState === undefined) && (
+                    <div style={{ textAlign: "center" }}>{"0"}</div>
+                  )}
                   {/* <div className="message-summary">0 (100%)</div> */}
                 </div>
                 <div className="flex-1">
@@ -329,14 +343,22 @@ const Summary = () => {
                 </div>
                 <div className="flex-1">
                   <div className="title-summary">NEUTRAL</div>
-                  {summaryState !== null && <div style={{ textAlign: "center" }}>{`${summaryState[3].count}`}</div>}
-                  {summaryState == null && <div style={{ textAlign: "center" }}>{"0"}</div>}
+                  {summaryState !== null && summaryState !== undefined && (
+                    <div style={{ textAlign: "center" }}>{`${summaryState[3].count}`}</div>
+                  )}
+                  {(summaryState === null || summaryState === undefined) && (
+                    <div style={{ textAlign: "center" }}>{"0"}</div>
+                  )}
                   {/* <div className="message-summary green">+6 (+100%)</div> */}
                 </div>
                 <div className="flex-1">
                   <div className="title-summary">POSITIVE</div>
-                  {summaryState !== null && <div style={{ textAlign: "center" }}>{`${summaryState[4].count}`}</div>}
-                  {summaryState == null && <div style={{ textAlign: "center" }}>{"0"}</div>}
+                  {summaryState !== null && summaryState !== undefined && (
+                    <div style={{ textAlign: "center" }}>{`${summaryState[4].count}`}</div>
+                  )}
+                  {(summaryState === null || summaryState === undefined) && (
+                    <div style={{ textAlign: "center" }}>{"0"}</div>
+                  )}
                   {/* <div className="message-summary red">+8 (+100%)</div> */}
                 </div>
               </div>
@@ -345,26 +367,40 @@ const Summary = () => {
                 <div className="top-title">
                   <div className="flex-1 bold">Mentions</div>
                 </div>
-                <Line
+                {/* <Line
                   data={data}
                   width={100}
                   height={50}
                   options={{ responsive: true, maintainAspectRatio: false }}
                   className="chart-data"
-                />
+                /> */}
+                {mentionGraph !== null && (
+                  <div className="chart-data">
+                    <MentionChart labels={mentionGraph.labels} datasets={mentionGraph.datasets} redraw={update} />
+                  </div>
+                )}
               </div>
 
               <div className="box-chart-summary">
                 <div className="top-title">
-                  <div className="flex-1 bold">Social Media Reach</div>
+                  <div className="flex-1 bold">Sentiments</div>
                 </div>
-                <Line
+                {/* <Line
                   data={data}
                   width={100}
                   height={50}
                   options={{ responsive: true, maintainAspectRatio: false }}
                   className="chart-data"
-                />
+                /> */}
+                {sentimentGraph !== null && (
+                  <div className="chart-data">
+                    <SentimentChart
+                      labels={sentimentGraph.labels}
+                      datasets={sentimentGraph.datasets}
+                      redraw={update2}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -412,7 +448,7 @@ const Summary = () => {
                   </div>
                 </div>
                 <table>
-                  {stats !== null && (
+                  {stats.length > 0 && (
                     <tbody>
                       {stats.map((v, i) => {
                         return (
@@ -421,7 +457,7 @@ const Summary = () => {
                               <div>
                                 <i className="fa fa-tv"></i> {`${v.mentions}`}
                               </div>
-                              <div className="message-summary">{v.site.toLocaleUpperCase()}</div>
+                              <div className="message-summary">{v.site}</div>
                             </td>
                             <td className="td-line "></td>
                           </tr>
@@ -442,7 +478,7 @@ const Summary = () => {
                 </div>
                 <table>
                   <tbody>
-                    {sources !== null &&
+                    {sources.length > 0 &&
                       sources.map((v, i) => {
                         return (
                           <tr key={i}>
@@ -458,7 +494,7 @@ const Summary = () => {
                                 {}
                                 {`${v.count}`}
                               </div>
-                              <div className="message-summary">{`${v.sources.toLocaleUpperCase()}`}</div>
+                              <div className="message-summary">{`${v.sources}`}</div>
                             </td>
                             <td className="td-line"></td>
                           </tr>
@@ -471,9 +507,7 @@ const Summary = () => {
           </div>
           <div className="box-keyword-2">
             Word Cloud
-            <div style={{ width: "100%" }}>
-              <ReactWordcloud words={wordCloud} options={options} />
-            </div>
+            <div style={{ width: "100%" }}>{wordCloud !== null && <WordCloud words={wordCloud} />}</div>
           </div>
         </div>
       </div>

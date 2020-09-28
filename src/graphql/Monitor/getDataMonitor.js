@@ -26,27 +26,11 @@ query getDataMonitor(
               borderColor
           }
       }
-      data_sentiment{
-          id
-          name
-          count
-      }
-      data_mention {
-        sources_id
-        group_id
-        name
-        count
-      }
-      data_mention {
-        sources_id
-        group_id
-        name
-        count
-      }
       rows
       data_info {
         id
         keywords_id
+        domain
         url
         title
         short_content

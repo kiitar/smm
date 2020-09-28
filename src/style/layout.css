@@ -482,6 +482,15 @@ tr:hover {
   margin: 15px 0;
   cursor: pointer;
 }
+.box-message-data-1-active {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 8px #9103bd;
+  border-width: 5px;
+  margin: 15px 0;
+  cursor: pointer;
+}
 .flex-data {
   display: flex;
   align-items: center;
