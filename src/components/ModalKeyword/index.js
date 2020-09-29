@@ -127,6 +127,7 @@ const ModalKeyword = ({ action }) => {
     }
 
     if (data) {
+      notify();
       setAddKeyword({
         ...addKeyword,
         loading: false,
@@ -136,7 +137,6 @@ const ModalKeyword = ({ action }) => {
         excludeWord: [],
         keywordInput: "",
       });
-      notify();
       setFetchKeyword(!fetchKeyword);
     }
   };

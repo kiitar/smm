@@ -125,7 +125,25 @@ const Summary = () => {
     <>
       <div style={{ overflow: "hidden", height: 0 }}>
         <div style={{ margin: 0, padding: 0 }} ref={componentRef}>
-          <Report />
+          {summaryState !== null &&
+            mostPopularMention !== null &&
+            mostPopularDate !== null &&
+            mentionGraph !== null &&
+            wordCloud !== null &&
+            mostSite !== null && (
+              <Report
+                keyword={currentKeyword.keyword}
+                startDate={startDate}
+                endDate={endDate}
+                summaryState={summaryState}
+                mostPopularMention={mostPopularMention}
+                mostPopularDate={mostPopularDate}
+                mentionGraph={mentionGraph}
+                redraw={update}
+                words={wordCloud}
+                mostSite={mostSite}
+              />
+            )}
         </div>
       </div>
 
