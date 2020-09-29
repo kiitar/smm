@@ -16,5 +16,8 @@ export const addKeywordState = atom({
     keywordsData: [],
     loading: false,
     modalView: false,
+    modalEdit: false,
+    editKeywordId: null,
+    editProjectId: null,
   },
 });

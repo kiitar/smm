@@ -1,18 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../../assets/images/logo.png";
 import "../../style/layout.css";
 import { AuthContext } from "../../App";
 const Login = () => {
   const Auth = React.useContext(AuthContext);
 
-  const handleClick = () => {
-    // console.log("Login");
-    localStorage.setItem("auth", true);
-    // localStorage.setItem("chatbot1", JSON.stringify({ name: "DLT BOT 1", id: 1 }));
-    // localStorage.setItem("chatbot2", JSON.stringify({ name: "DLT BOT 2", id: 2 }));
-    // localStorage.setItem("currentBot", 1);
+  const [user, setUser] = useState("");
+  const [pass, setPass] = useState("");
+  const [err, setErr] = useState(false);
+  const [errMessage, setErrMessage] = useState("");
 
-    Auth.setAuth(true);
+  const handleClick = () => {
+    if (!user) {
+      setErrMessage("* username is required.");
+      setErr(true);
+      return;
+    }
+    if (!pass) {
+      setErrMessage("* password is required.");
+      setErr(true);
+      return;
+    }
+    if (user !== "admin") {
+      setErrMessage("* username is not correct.");
+      setErr(true);
+      return;
+    }
+
+    if (user === "admin" && pass === "dltadmin") {
+      console.log("Login");
+      localStorage.setItem("auth", true);
+
+      Auth.setAuth(true);
+    } else {
+      setErrMessage("* wrong password.");
+      setErr(true);
+      return;
+    }
+  };
+
+  const handlePassword = (e) => {
+    setErr(false);
+    setPass(e.target.value);
+    if (e.key === "Enter") {
+      handleClick();
+    }
   };
 
   return (
@@ -40,7 +72,15 @@ const Login = () => {
             <i className="fa fa-user" />
           </div>
           <div>
-            <input className="input-login" placeholder="Username"></input>
+            <input
+              className="input-login"
+              placeholder="Username"
+              value={user}
+              onChange={(e) => {
+                setErr(false);
+                setUser(e.target.value);
+              }}
+            ></input>
           </div>
         </div>
         <div className="container-input-login">
@@ -48,15 +88,27 @@ const Login = () => {
             <i className="fa fa-lock" />
           </div>
           <div>
-            <input className="input-login" placeholder="Password"></input>
+            <input
+              className="input-login"
+              type="password"
+              placeholder="Password"
+              value={pass}
+              onChange={(e) => {
+                handlePassword(e);
+              }}
+              onKeyDown={(e) => handlePassword(e)}
+            ></input>
           </div>
         </div>
-        <button className="btn-forget">Forget Password?</button>
-        <br />
+        {/* <button className="btn-forget">Forget Password?</button> */}
+        {/* <br /> */}
         <div className="container-btn-login">
           <button className="btn-login" onClick={handleClick}>
             Login
           </button>
+          <br />
+          <br />
+          {err && <p className="txt-err">{errMessage}</p>}
         </div>
       </div>
     </div>

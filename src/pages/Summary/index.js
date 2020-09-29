@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import ReactToPrint from "react-to-print";
 import Pagination from "@material-ui/lab/Pagination";
 // import { Line } from "react-chartjs-2";
 import "date-fns";
@@ -16,9 +17,13 @@ import "tippy.js/dist/tippy.css";
 import "tippy.js/animations/scale.css";
 import MentionChart from "../../components/MentionChart";
 import SentimentChart from "../../components/SentimentChart";
+import Report from "../../components/Report";
+import Button from "../../components/Button";
 
 const Summary = () => {
+  const componentRef = useRef();
   // Recoil State
+
   const currentKeyword = useRecoilValue(currentKeywordState);
   // console.log(`Summary -> currentKeyword`, currentKeyword);
   const [currentDiffDate, setCurrentDiffDate] = useRecoilState(currentDiffDateState);
@@ -96,12 +101,6 @@ const Summary = () => {
         summary,
         word_cloud,
       } = data.getSummary;
-      console.log(`Summary -> most_popular`, most_popular);
-      console.log(`Summary -> most_site`, most_site);
-      console.log(`Summary -> sources`, sources);
-      console.log(`Summary -> stats`, stats);
-      console.log(`Summary -> summary`, summary);
-      console.log(`Summary -> word_cloud`, word_cloud);
       setSummaryState(summary);
       setSources(sources);
       setStats(stats);
@@ -123,395 +122,404 @@ const Summary = () => {
   }, [stableLoad]);
 
   return (
-    <div className="container-main">
-      <div className="">
+    <>
+      <div style={{ overflow: "hidden", height: 0 }}>
+        <div style={{ margin: 0, padding: 0 }} ref={componentRef}>
+          <Report />
+        </div>
+      </div>
+
+      <div className="container-main">
         <div className="">
-          <div className="top-title">
-            <div className="margin-left flex-1 bold">Summary</div>
-          </div>
+          <div className="">
+            <div className="top-title">
+              <div className="margin-left flex-1 bold">Summary</div>
+              <ReactToPrint trigger={() => <Button name={"PRINT PDF"} />} content={() => componentRef.current} />
+            </div>
 
-          <div className="box-keyword">
-            <div className="flex-1">
-              <div>{currentKeyword.keyword}</div>
-              <div className="font-data">Your current keyword</div>
-            </div>
-            <div className="flex-title">
-              <div
-                className={currentDiffDate === 1 ? `btn-active-1` : `btn-active`}
-                onClick={() => {
-                  setEndDate(moment(Date.now()));
-                  setStartDate(moment(Date.now()).subtract(1, "days"));
-                  setCurrentDiffDate(1);
-                }}
-              >
-                Day
+            <div className="box-keyword">
+              <div className="flex-1">
+                <div>{currentKeyword.keyword}</div>
+                <div className="font-data">Your current keyword</div>
               </div>
-              <div
-                className={currentDiffDate === 7 ? `btn-active-1` : `btn-active`}
-                onClick={() => {
-                  setEndDate(moment(Date.now()));
-                  setStartDate(moment(Date.now()).subtract(7, "days"));
-                  setCurrentDiffDate(7);
-                }}
-              >
-                Week
-              </div>
-              <div
-                className={currentDiffDate === 30 ? `btn-active-1` : `btn-active`}
-                onClick={() => {
-                  setEndDate(moment(Date.now()));
-                  setStartDate(moment(Date.now()).subtract(1, "month"));
-                  setCurrentDiffDate(30);
-                }}
-              >
-                Month
-              </div>
-            </div>
-            <div className="margin-date"></div>
-            <div className="flex-title-1">
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Grid container>
-                  <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="dd/MM/yyyy"
-                    margin="normal"
-                    id="date-picker-inline1"
-                    label="Start Date"
-                    value={startDate}
-                    maxDate={endDate}
-                    onChange={(date) => handleStartDate(date)}
-                    KeyboardButtonProps={{
-                      "aria-label": "change date",
-                    }}
-                  />
-                  <div className="margin-date"></div>
-                  <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="dd/MM/yyyy"
-                    margin="normal"
-                    id="date-picker-inline2"
-                    label="End Date"
-                    value={endDate}
-                    minDate={moment(startDate).add(1, "days")}
-                    maxDate={new Date()}
-                    onChange={(date) => handleEndDate(date)}
-                    KeyboardButtonProps={{
-                      "aria-label": "change date",
-                    }}
-                  />
-                </Grid>
-              </MuiPickersUtilsProvider>
-            </div>
-          </div>
-
-          <div className="box-summery">
-            <div className="flex-1 box-detail">
-              <div>
-                <button
-                  className={currentMenu === 1 ? "btn-top active-border-bottom" : "btn-top "}
+              <div className="flex-title">
+                <div
+                  className={currentDiffDate === 1 ? `btn-active-1` : `btn-active`}
                   onClick={() => {
-                    setPage(1);
-                    setCurrentMenu(1);
+                    setEndDate(moment(Date.now()));
+                    setStartDate(moment(Date.now()).subtract(1, "days"));
+                    setCurrentDiffDate(1);
                   }}
                 >
-                  10 most popular mentions
-                </button>
-                <button
-                  className={currentMenu === 2 ? "btn-top active-border-bottom" : "btn-top "}
+                  Day
+                </div>
+                <div
+                  className={currentDiffDate === 7 ? `btn-active-1` : `btn-active`}
                   onClick={() => {
-                    setPage(1);
-                    setCurrentMenu(2);
+                    setEndDate(moment(Date.now()));
+                    setStartDate(moment(Date.now()).subtract(7, "days"));
+                    setCurrentDiffDate(7);
                   }}
                 >
-                  10 Recent mentions
-                </button>
-                <div className="line-bottom"> </div>
+                  Week
+                </div>
+                <div
+                  className={currentDiffDate === 30 ? `btn-active-1` : `btn-active`}
+                  onClick={() => {
+                    setEndDate(moment(Date.now()));
+                    setStartDate(moment(Date.now()).subtract(1, "month"));
+                    setCurrentDiffDate(30);
+                  }}
+                >
+                  Month
+                </div>
               </div>
+              <div className="margin-date"></div>
+              <div className="flex-title-1">
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <Grid container>
+                    <KeyboardDatePicker
+                      disableToolbar
+                      variant="inline"
+                      format="dd/MM/yyyy"
+                      margin="normal"
+                      id="date-picker-inline1"
+                      label="Start Date"
+                      value={startDate}
+                      maxDate={endDate}
+                      onChange={(date) => handleStartDate(date)}
+                      KeyboardButtonProps={{
+                        "aria-label": "change date",
+                      }}
+                    />
+                    <div className="margin-date"></div>
+                    <KeyboardDatePicker
+                      disableToolbar
+                      variant="inline"
+                      format="dd/MM/yyyy"
+                      margin="normal"
+                      id="date-picker-inline2"
+                      label="End Date"
+                      value={endDate}
+                      minDate={moment(startDate).add(1, "days")}
+                      maxDate={new Date()}
+                      onChange={(date) => handleEndDate(date)}
+                      KeyboardButtonProps={{
+                        "aria-label": "change date",
+                      }}
+                    />
+                  </Grid>
+                </MuiPickersUtilsProvider>
+              </div>
+            </div>
 
-              {/* <div className="top-title">
+            <div className="box-summery">
+              <div className="flex-1 box-detail">
+                <div>
+                  <button
+                    className={currentMenu === 1 ? "btn-top active-border-bottom" : "btn-top "}
+                    onClick={() => {
+                      setPage(1);
+                      setCurrentMenu(1);
+                    }}
+                  >
+                    10 most popular mentions
+                  </button>
+                  <button
+                    className={currentMenu === 2 ? "btn-top active-border-bottom" : "btn-top "}
+                    onClick={() => {
+                      setPage(1);
+                      setCurrentMenu(2);
+                    }}
+                  >
+                    10 Recent mentions
+                  </button>
+                  <div className="line-bottom"> </div>
+                </div>
+
+                {/* <div className="top-title">
                 <div className="flex-1 bold">The most popular mentions</div>
               </div> */}
-              <div>
-                {mostPopularDate !== null &&
-                  currentMenu === 2 &&
-                  mostPopularDate.map((v, i) => {
-                    if (i >= (page - 1) * 4 && i < page * 4) {
-                      return (
-                        <div className="box-message-data" key={i}>
-                          <div className="flex-data">
-                            <i className="fa fa-twitter icon-message-data"></i>
-                            <div className="bold">
-                              <div className="font-data-title">{`${v.title}`}</div>
-                              <div className="font-data ">
-                                <i className="fa fa-calendar icon-date"></i>
-                                <span className="icon-date-1">{`${moment(v.date).format("DD-MM-YYYY")}`}</span>
-                                <div className="green margin">{`${v.sources.length > 0 ? v.sources : ""}`}</div>
+                <div>
+                  {mostPopularDate !== null &&
+                    currentMenu === 2 &&
+                    mostPopularDate.map((v, i) => {
+                      if (i >= (page - 1) * 4 && i < page * 4) {
+                        return (
+                          <div className="box-message-data" key={i}>
+                            <div className="flex-data">
+                              <i className="fa fa-twitter icon-message-data"></i>
+                              <div className="bold">
+                                <div className="font-data-title">{`${v.title}`}</div>
+                                <div className="font-data ">
+                                  <i className="fa fa-calendar icon-date"></i>
+                                  <span className="icon-date-1">{`${moment(v.date).format("DD-MM-YYYY")}`}</span>
+                                  <div className="green margin">{`${v.sources.length > 0 ? v.sources : ""}`}</div>
+                                </div>
                               </div>
                             </div>
+                            <span className="font-data-title">{`${v.short_content}`}</span>
                           </div>
-                          <span className="font-data-title">{`${v.short_content}`}</span>
-                        </div>
-                      );
-                    }
-                  })}
-                {mostPopularMention !== null &&
-                  currentMenu === 1 &&
-                  mostPopularMention.map((v, i) => {
-                    if (i >= (page - 1) * 4 && i < page * 4) {
-                      return (
-                        <div className="box-message-data" key={i}>
-                          <div className="flex-data">
-                            <i className="fa fa-twitter icon-message-data"></i>
-                            <div className="bold">
-                              <div className="font-data-title">{`${v.title}`}</div>
-                              <div className="font-data ">
-                                <i className="fa fa-calendar icon-date"></i>
-                                <span className="icon-date-1">{`${moment(v.date).format("DD-MM-YYYY")}`}</span>
-                                <div className="green margin">{`${v.sources.length > 0 ? v.sources : ""}`}</div>
+                        );
+                      }
+                    })}
+                  {mostPopularMention !== null &&
+                    currentMenu === 1 &&
+                    mostPopularMention.map((v, i) => {
+                      if (i >= (page - 1) * 4 && i < page * 4) {
+                        return (
+                          <div className="box-message-data" key={i}>
+                            <div className="flex-data">
+                              <i className="fa fa-twitter icon-message-data"></i>
+                              <div className="bold">
+                                <div className="font-data-title">{`${v.title}`}</div>
+                                <div className="font-data ">
+                                  <i className="fa fa-calendar icon-date"></i>
+                                  <span className="icon-date-1">{`${moment(v.date).format("DD-MM-YYYY")}`}</span>
+                                  <div className="green margin">{`${v.sources.length > 0 ? v.sources : ""}`}</div>
+                                </div>
                               </div>
                             </div>
+                            <span className="font-data-title">{`${v.short_content}`}</span>
                           </div>
-                          <span className="font-data-title">{`${v.short_content}`}</span>
-                        </div>
-                      );
-                    }
-                  })}
-
-                {mostPopularMention !== null && currentMenu === 1 && (
-                  <div className="block center bottom-socail">
-                    <div className="pagination-center">
-                      <Pagination
-                        count={Math.ceil(mostPopularMention.length / 4)}
-                        shape="rounded"
-                        onChange={(e, p) => {
-                          setPage(p);
-                        }}
-                      />
-                    </div>
-                  </div>
-                )}
-                {mostPopularDate !== null && currentMenu === 2 && (
-                  <div className="block center bottom-socail">
-                    <div className="pagination-center">
-                      <Pagination
-                        count={Math.ceil(mostPopularDate.length / 4)}
-                        shape="rounded"
-                        onChange={(e, p) => {
-                          setPage(p);
-                        }}
-                      />
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="margin-date"></div>
-
-            <div className="flex-1 box-detail">
-              <div className="top-title">
-                <div className="flex-1 bold">Summary</div>
-              </div>
-              <div className="box-keyword-1">
-                <div className="flex-1">
-                  <div className="title-summary">MENTIONS</div>
-                  {summaryState !== null && summaryState !== undefined && (
-                    <div style={{ textAlign: "center" }}>{`${summaryState[0].count}`}</div>
-                  )}
-                  {(summaryState === null || summaryState === undefined) && (
-                    <div style={{ textAlign: "center" }}>{"0"}</div>
-                  )}
-                  {/* <div className="message-summary green">+35 (+100%)</div> */}
-                </div>
-                <div className="flex-1">
-                  <div className="title-summary">REACH</div>
-                  {summaryState !== null && summaryState !== undefined && (
-                    <div style={{ textAlign: "center" }}>{`${summaryState[1].count}`}</div>
-                  )}
-                  {(summaryState === null || summaryState === undefined) && (
-                    <div style={{ textAlign: "center" }}>{"0"}</div>
-                  )}
-                  {/* <div className="message-summary">0 (100%)</div> */}
-                </div>
-                <div className="flex-1">
-                  <div className="title-summary">NEGATIVE</div>
-                  {summaryState !== null && <div style={{ textAlign: "center" }}>{`${summaryState[2].count}`}</div>}
-                  {summaryState == null && <div style={{ textAlign: "center" }}>{"0"}</div>}
-                  {/* <div className="message-summary">0 (100%)</div> */}
-                </div>
-                <div className="flex-1">
-                  <div className="title-summary">NEUTRAL</div>
-                  {summaryState !== null && summaryState !== undefined && (
-                    <div style={{ textAlign: "center" }}>{`${summaryState[3].count}`}</div>
-                  )}
-                  {(summaryState === null || summaryState === undefined) && (
-                    <div style={{ textAlign: "center" }}>{"0"}</div>
-                  )}
-                  {/* <div className="message-summary green">+6 (+100%)</div> */}
-                </div>
-                <div className="flex-1">
-                  <div className="title-summary">POSITIVE</div>
-                  {summaryState !== null && summaryState !== undefined && (
-                    <div style={{ textAlign: "center" }}>{`${summaryState[4].count}`}</div>
-                  )}
-                  {(summaryState === null || summaryState === undefined) && (
-                    <div style={{ textAlign: "center" }}>{"0"}</div>
-                  )}
-                  {/* <div className="message-summary red">+8 (+100%)</div> */}
-                </div>
-              </div>
-
-              <div className="box-chart-summary">
-                <div className="top-title">
-                  <div className="flex-1 bold">Mentions</div>
-                </div>
-                {/* <Line
-                  data={data}
-                  width={100}
-                  height={50}
-                  options={{ responsive: true, maintainAspectRatio: false }}
-                  className="chart-data"
-                /> */}
-                {mentionGraph !== null && (
-                  <div className="chart-data">
-                    <MentionChart labels={mentionGraph.labels} datasets={mentionGraph.datasets} redraw={update} />
-                  </div>
-                )}
-              </div>
-
-              <div className="box-chart-summary">
-                <div className="top-title">
-                  <div className="flex-1 bold">Sentiments</div>
-                </div>
-                {/* <Line
-                  data={data}
-                  width={100}
-                  height={50}
-                  options={{ responsive: true, maintainAspectRatio: false }}
-                  className="chart-data"
-                /> */}
-                {sentimentGraph !== null && (
-                  <div className="chart-data">
-                    <SentimentChart
-                      labels={sentimentGraph.labels}
-                      datasets={sentimentGraph.datasets}
-                      redraw={update2}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div className="box-summery">
-            <div className="flex-13 box-detail">
-              <div className="top-title">
-                <div className="flex-1 bold">The most influential sites</div>
-              </div>
-              <div>
-                <table>
-                  <tbody>
-                    {mostSite !== null &&
-                      mostSite.map((v, i) => {
-                        return (
-                          <tr key={i}>
-                            <td className="td-line ">{`${v.site}`}</td>
-                            <td className="td-line center">
-                              <div className="div-flex-center">
-                                <i className="fa fa-comments-o"></i> {`${v.mentions}`}
-                              </div>
-                              <div className="message-summary">MENTIONS</div>
-                            </td>
-                            <td className="td-line center">
-                              <div className="div-flex-center">
-                                <i className="fa fa-eye"></i> {`${v.reach}`}
-                              </div>
-                              <div className="message-summary">VISITS</div>
-                            </td>
-                          </tr>
                         );
-                      })}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+                      }
+                    })}
 
-            <div className="margin-date"></div>
-
-            <div className="flex-15 flex-display">
-              <div className="flex-1 box-detail">
-                <div className="top-title">
-                  <div className="flex-1 bold">
-                    <i className="fa fa-pie-chart"></i> Stats
-                  </div>
-                </div>
-                <table>
-                  {stats.length > 0 && (
-                    <tbody>
-                      {stats.map((v, i) => {
-                        return (
-                          <tr key={i}>
-                            <td className="td-line ">
-                              <div>
-                                <i className="fa fa-tv"></i> {`${v.mentions}`}
-                              </div>
-                              <div className="message-summary">{v.site}</div>
-                            </td>
-                            <td className="td-line "></td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
+                  {mostPopularMention !== null && currentMenu === 1 && (
+                    <div className="block center bottom-socail">
+                      <div className="pagination-center">
+                        <Pagination
+                          count={Math.ceil(mostPopularMention.length / 4)}
+                          shape="rounded"
+                          onChange={(e, p) => {
+                            setPage(p);
+                          }}
+                        />
+                      </div>
+                    </div>
                   )}
-                </table>
+                  {mostPopularDate !== null && currentMenu === 2 && (
+                    <div className="block center bottom-socail">
+                      <div className="pagination-center">
+                        <Pagination
+                          count={Math.ceil(mostPopularDate.length / 4)}
+                          shape="rounded"
+                          onChange={(e, p) => {
+                            setPage(p);
+                          }}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="margin-date"></div>
 
               <div className="flex-1 box-detail">
                 <div className="top-title">
-                  <div className="flex-1 bold">
-                    <i className="fa fa-share-alt"></i> Sources
+                  <div className="flex-1 bold">Summary</div>
+                </div>
+                <div className="box-keyword-1">
+                  <div className="flex-1">
+                    <div className="title-summary">MENTIONS</div>
+                    {summaryState !== null && summaryState !== undefined && (
+                      <div style={{ textAlign: "center" }}>{`${summaryState[0].count}`}</div>
+                    )}
+                    {(summaryState === null || summaryState === undefined) && (
+                      <div style={{ textAlign: "center" }}>{"0"}</div>
+                    )}
+                    {/* <div className="message-summary green">+35 (+100%)</div> */}
+                  </div>
+                  <div className="flex-1">
+                    <div className="title-summary">REACH</div>
+                    {summaryState !== null && summaryState !== undefined && (
+                      <div style={{ textAlign: "center" }}>{`${summaryState[1].count}`}</div>
+                    )}
+                    {(summaryState === null || summaryState === undefined) && (
+                      <div style={{ textAlign: "center" }}>{"0"}</div>
+                    )}
+                    {/* <div className="message-summary">0 (100%)</div> */}
+                  </div>
+                  <div className="flex-1">
+                    <div className="title-summary">NEGATIVE</div>
+                    {summaryState !== null && <div style={{ textAlign: "center" }}>{`${summaryState[2].count}`}</div>}
+                    {summaryState == null && <div style={{ textAlign: "center" }}>{"0"}</div>}
+                    {/* <div className="message-summary">0 (100%)</div> */}
+                  </div>
+                  <div className="flex-1">
+                    <div className="title-summary">NEUTRAL</div>
+                    {summaryState !== null && summaryState !== undefined && (
+                      <div style={{ textAlign: "center" }}>{`${summaryState[3].count}`}</div>
+                    )}
+                    {(summaryState === null || summaryState === undefined) && (
+                      <div style={{ textAlign: "center" }}>{"0"}</div>
+                    )}
+                    {/* <div className="message-summary green">+6 (+100%)</div> */}
+                  </div>
+                  <div className="flex-1">
+                    <div className="title-summary">POSITIVE</div>
+                    {summaryState !== null && summaryState !== undefined && (
+                      <div style={{ textAlign: "center" }}>{`${summaryState[4].count}`}</div>
+                    )}
+                    {(summaryState === null || summaryState === undefined) && (
+                      <div style={{ textAlign: "center" }}>{"0"}</div>
+                    )}
+                    {/* <div className="message-summary red">+8 (+100%)</div> */}
                   </div>
                 </div>
-                <table>
-                  <tbody>
-                    {sources.length > 0 &&
-                      sources.map((v, i) => {
-                        return (
-                          <tr key={i}>
-                            <td className="td-line ">
-                              <div>
-                                {v.sources === "community" ? (
-                                  <i className="fa fa-share-alt"></i>
-                                ) : v.sources === "news" ? (
-                                  <i className="fa fa-newspaper-o"></i>
-                                ) : (
-                                  <i className="fa fa-comments-o"></i>
-                                )}{" "}
-                                {}
-                                {`${v.count}`}
-                              </div>
-                              <div className="message-summary">{`${v.sources}`}</div>
-                            </td>
-                            <td className="td-line"></td>
-                          </tr>
-                        );
-                      })}
-                  </tbody>
-                </table>
+
+                <div className="box-chart-summary">
+                  <div className="top-title">
+                    <div className="flex-1 bold">Mentions</div>
+                  </div>
+                  {/* <Line
+                  data={data}
+                  width={100}
+                  height={50}
+                  options={{ responsive: true, maintainAspectRatio: false }}
+                  className="chart-data"
+                /> */}
+                  {mentionGraph !== null && (
+                    <div className="chart-data">
+                      <MentionChart labels={mentionGraph.labels} datasets={mentionGraph.datasets} redraw={update} />
+                    </div>
+                  )}
+                </div>
+
+                <div className="box-chart-summary">
+                  <div className="top-title">
+                    <div className="flex-1 bold">Sentiments</div>
+                  </div>
+                  {/* <Line
+                  data={data}
+                  width={100}
+                  height={50}
+                  options={{ responsive: true, maintainAspectRatio: false }}
+                  className="chart-data"
+                /> */}
+                  {sentimentGraph !== null && (
+                    <div className="chart-data">
+                      <SentimentChart
+                        labels={sentimentGraph.labels}
+                        datasets={sentimentGraph.datasets}
+                        redraw={update2}
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-          <div className="box-keyword-2">
-            Word Cloud
-            <div style={{ width: "100%" }}>{wordCloud !== null && <WordCloud words={wordCloud} />}</div>
+
+            <div className="box-summery">
+              <div className="flex-13 box-detail">
+                <div className="top-title">
+                  <div className="flex-1 bold">The most influential sites</div>
+                </div>
+                <div>
+                  <table>
+                    <tbody>
+                      {mostSite !== null &&
+                        mostSite.map((v, i) => {
+                          return (
+                            <tr key={i}>
+                              <td className="td-line ">{`${v.site}`}</td>
+                              <td className="td-line center">
+                                <div className="div-flex-center">
+                                  <i className="fa fa-comments-o"></i> {`${v.mentions}`}
+                                </div>
+                                <div className="message-summary">MENTIONS</div>
+                              </td>
+                              <td className="td-line center">
+                                <div className="div-flex-center">
+                                  <i className="fa fa-eye"></i> {`${v.reach}`}
+                                </div>
+                                <div className="message-summary">VISITS</div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div className="margin-date"></div>
+
+              <div className="flex-15 flex-display">
+                <div className="flex-1 box-detail">
+                  <div className="top-title">
+                    <div className="flex-1 bold">
+                      <i className="fa fa-pie-chart"></i> Stats
+                    </div>
+                  </div>
+                  <table>
+                    {stats.length > 0 && (
+                      <tbody>
+                        {stats.map((v, i) => {
+                          return (
+                            <tr key={i}>
+                              <td className="td-line ">
+                                <div>
+                                  <i className="fa fa-tv"></i> {`${v.mentions}`}
+                                </div>
+                                <div className="message-summary">{v.site}</div>
+                              </td>
+                              <td className="td-line "></td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    )}
+                  </table>
+                </div>
+
+                <div className="margin-date"></div>
+
+                <div className="flex-1 box-detail">
+                  <div className="top-title">
+                    <div className="flex-1 bold">
+                      <i className="fa fa-share-alt"></i> Sources
+                    </div>
+                  </div>
+                  <table>
+                    <tbody>
+                      {sources.length > 0 &&
+                        sources.map((v, i) => {
+                          return (
+                            <tr key={i}>
+                              <td className="td-line ">
+                                <div>
+                                  {v.sources === "community" ? (
+                                    <i className="fa fa-share-alt"></i>
+                                  ) : v.sources === "news" ? (
+                                    <i className="fa fa-newspaper-o"></i>
+                                  ) : (
+                                    <i className="fa fa-comments-o"></i>
+                                  )}{" "}
+                                  {}
+                                  {`${v.count}`}
+                                </div>
+                                <div className="message-summary">{`${v.sources}`}</div>
+                              </td>
+                              <td className="td-line"></td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div className="box-keyword-2">
+              Word Cloud
+              <div style={{ width: "100%" }}>{wordCloud !== null && <WordCloud words={wordCloud} />}</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

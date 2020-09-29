@@ -6,7 +6,7 @@ import "./style.css";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { addKeywordState, userState, fetchKeywordState, modalConfirmState } from "../../recoil/atoms";
 import { RequestAPI } from "../../utils";
-import { createKeywords } from "../../graphql/Keywords";
+import { createKeywords, updateKeywords } from "../../graphql/Keywords";
 import { Modal as Modals } from "../Modal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,7 +16,9 @@ const ModalKeyword = ({ action }) => {
   const [fetchKeyword, setFetchKeyword] = useRecoilState(fetchKeywordState);
   const [modalConfirm, setModalConfirm] = useRecoilState(modalConfirmState);
   // const [confirm, setConfirm] = useState(false);
-  // const [modal, setModal] = useState(false);
+  const [modalEdit, setModalEdit] = useState(false);
+
+  // const [editId, setEditId] = useState(null);
 
   const notify = () => {
     toast.success("บันทึกสำเร็จ !", { position: toast.POSITION.TOP_RIGHT });
@@ -89,6 +91,56 @@ const ModalKeyword = ({ action }) => {
     console.log(`handleCreateKeyword -> errors`, errors);
   };
 
+  const handleEditKeyword = async () => {
+    console.log("params : ", addKeyword);
+
+    if (!addKeyword.keywordInput.length) {
+      warning();
+      return;
+    }
+
+    let { data, errors } = await RequestAPI(updateKeywords, {
+      keywords_id: addKeyword.editKeywordId,
+      users_id: user.userId,
+      project_id: addKeyword.editProjectId,
+      keywords: [
+        {
+          keyword: addKeyword.keywordInput,
+          require_keyword: addKeyword.includeWord,
+          exclude_keyword: addKeyword.excludeWord,
+        },
+      ],
+    });
+    console.log(`data`, data);
+    console.log(`errors`, errors);
+    if (errors) {
+      setAddKeyword({
+        ...addKeyword,
+        loading: false,
+        modalCreate: false,
+        modalEdit: false,
+        includeWord: [],
+        excludeWord: [],
+        keywordInput: "",
+      });
+      toast.error("ไม่สามารถทำรายการได้ในขณะนี้ !", { position: toast.POSITION.TOP_RIGHT });
+    }
+
+    if (data) {
+      setAddKeyword({
+        ...addKeyword,
+        loading: false,
+        modalCreate: false,
+        modalEdit: false,
+        includeWord: [],
+        excludeWord: [],
+        keywordInput: "",
+      });
+      notify();
+      setFetchKeyword(!fetchKeyword);
+    }
+  };
+
   const onClose = () => {
     setModalConfirm(false);
   };
@@ -98,11 +150,23 @@ const ModalKeyword = ({ action }) => {
     handleCreateKeyword();
   };
 
+  const onCloseEdit = () => {
+    setModalEdit(false);
+  };
+
+  const onSubmitEdit = () => {
+    setModalEdit(false);
+    handleEditKeyword();
+  };
+
   const handleSubmit = () => {
     // console.log("submit");
-
     // setWarningMessage("");
     setModalConfirm(true);
+  };
+
+  const handleEdit = () => {
+    setModalEdit(true);
   };
 
   return (
@@ -110,6 +174,7 @@ const ModalKeyword = ({ action }) => {
       <div className="container-create">
         {/* <ToastContainer /> */}
         {modalConfirm && <Modals onClose={onClose} onSubmit={onSubmit} />}
+        {modalEdit && <Modals onClose={onCloseEdit} onSubmit={onSubmitEdit} />}
         <div>
           <div>Keyword</div>
           <div className="flex-create">
@@ -117,7 +182,7 @@ const ModalKeyword = ({ action }) => {
               <textarea
                 className="text-area"
                 placeholder="เพิ่ม Keyword"
-                maxlength="50"
+                maxLength="50"
                 value={addKeyword.keywordInput}
                 onChange={(e) => handleInputKeyword(e)}
                 disabled
@@ -126,7 +191,7 @@ const ModalKeyword = ({ action }) => {
               <textarea
                 className="text-area"
                 placeholder="เพิ่ม Keyword"
-                maxlength="50"
+                maxLength="50"
                 value={addKeyword.keywordInput}
                 onChange={(e) => handleInputKeyword(e)}
               />
@@ -186,6 +251,18 @@ const ModalKeyword = ({ action }) => {
             </div>
           )}
 
+          {action === "edit" && (
+            <div className="padding-btn">
+              <Button
+                name="Edit"
+                styleBtn="edit"
+                onClick={() => {
+                  handleEdit();
+                }}
+              />
+            </div>
+          )}
+
           <div className="padding-btn">
             <Button
               name="Close"
@@ -195,6 +272,7 @@ const ModalKeyword = ({ action }) => {
                   ...addKeyword,
                   modalCreate: false,
                   modalView: false,
+                  modalEdit: false,
                   includeWord: [],
                   excludeWord: [],
                   keywordInput: "",

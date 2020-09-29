@@ -1,0 +1,85 @@
+.container-page-report {
+  /* background: gold; */
+  /* border: 2px solid #777; */
+  width: 21cm;
+  height: 31cm;
+  /* margin: 0 auto; */
+  margin-top: 0;
+  position: relative;
+  padding: 25px;
+  margin-left: 25px;
+  margin-right: 25px;
+}
+.center-text-report {
+  margin-top: 300px;
+  position: absolute;
+  /* background: chocolate; */
+  width: 95%;
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.h3 {
+  border-bottom: 1.2px solid #9999;
+  padding-bottom: 10px;
+}
+.flex-report {
+  display: flex;
+}
+.flex-report-1 {
+  flex: 1;
+}
+#container-chart-report {
+  flex: 1;
+}
+.pd-box-report {
+  padding: 5px;
+  margin-left: 15px;
+  font-size: 0.9em;
+}
+.jus {
+  align-items: center;
+  border: solid 1px #aaa;
+  text-align: center;
+  padding: 10px;
+  margin: 2px;
+}
+.box-mentions-report {
+  border: 1.2px solid #aaa;
+  padding: 8px 13px;
+  font-size: 0.65em;
+  margin: 5px 0;
+}
+.icon-m-report {
+  padding: 10px;
+  font-size: 5px;
+  background: white;
+  color: rgb(154, 15, 209);
+  border-radius: 250px;
+  border: 2.8px solid rgb(154, 15, 209);
+  margin-right: 20px;
+}
+.col-vol {
+  color: rgb(154, 15, 209);
+}
+.al-center {
+  align-items: center;
+  margin-bottom: 10px;
+}
+/* table,
+td, */
+.th-report {
+  border: 1px solid #ddd;
+  text-align: left;
+  font-size: 0.85em;
+}
+
+.table-report {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* th, */
+.td-report {
+  padding: 10px;
+}

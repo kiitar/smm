@@ -19,6 +19,10 @@ body {
 p {
   margin: 0;
 }
+.txt-err {
+  color: rgb(250, 200, 37);
+  text-align: center;
+}
 @media screen and (max-width: 1680px) {
   .divnav {
     width: 304px !important;

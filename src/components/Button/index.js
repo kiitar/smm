@@ -1,23 +1,20 @@
 import React from "react";
-import "./style.css"
+import "./style.css";
 
 const Button = (props) => {
+  let styleBtn = "btn-open";
 
-  let styleBtn = 'btn-open'
-
-  if (props.styleBtn === 'create') {
-    styleBtn = 'btn-open' 
+  if (props.styleBtn === "create") {
+    styleBtn = "btn-open";
+  } else if (props.styleBtn === "delete") {
+    styleBtn = "btn-delete";
+  } else if (props.styleBtn === "edit") {
+    styleBtn = "btn-edit";
+  } else if (props.styleBtn === "close") {
+    styleBtn = "btn-close";
+  } else if (props.styleBtn === "view") {
+    styleBtn = "btn-view";
   }
-  else if(props.styleBtn === 'delete') {
-    styleBtn = 'btn-delete' 
-  }
-  else if(props.styleBtn === 'close') {
-    styleBtn = 'btn-close' 
-  }
-  else if(props.styleBtn === 'view') {
-    styleBtn = 'btn-view' 
-  }
-
 
   return (
     <div>

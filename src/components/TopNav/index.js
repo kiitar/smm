@@ -1,14 +1,26 @@
 import React from "react";
 import "./style.css";
 import { AuthContext, NavContext, DisplayContext } from "../../App";
+import { Modal as Modals } from "../../components/Modal";
+import { modalLogoutState } from "../../recoil/atoms";
+import { useRecoilState } from "recoil";
 
 function TopNav() {
   const Auth = React.useContext(AuthContext);
   const Nav = React.useContext(NavContext);
   const Display = React.useContext(DisplayContext);
+  const [modalLogout, setModalLogout] = useRecoilState(modalLogoutState);
 
   const handleClick = () => {
-    // console.log("Logout");
+    setModalLogout(true);
+  };
+
+  const onClose = () => {
+    setModalLogout(false);
+  };
+
+  const onSubmit = () => {
+    setModalLogout(false);
     localStorage.clear();
     Auth.setAuth(false);
   };
@@ -25,6 +37,7 @@ function TopNav() {
         <button className="hamburker" onClick={handleClickSideNav}>
           <i className="fa fa-reorder"></i>
         </button>
+        {modalLogout && <Modals text={"ยืนยันการออกจากระบบ"} onClose={onClose} onSubmit={onSubmit} />}
       </div>
 
       <div className="logout">

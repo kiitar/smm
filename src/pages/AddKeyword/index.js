@@ -75,10 +75,11 @@ const AddKeyword = () => {
   return (
     <div className="container-main">
       <ToastContainer />
-      {modalConfirm && <Modals onClose={onClose} onSubmit={onSubmit} />}
+      {modalConfirm && <Modals text={"ยืนยันการลบข้อมูล"} onClose={onClose} onSubmit={onSubmit} />}
       {/* <div>{addKeyword.modalCreate && <ModalKeyword action={"create"} />}</div> */}
       {addKeyword.modalCreate && <ModalKeyword action={"create"} />}
       {addKeyword.modalView && <ModalKeyword action={"view"} />}
+      {addKeyword.modalEdit && <ModalKeyword action={"edit"} />}
       <div className="page-main">
         <div className="padding-page">
           <div className="top-title">
@@ -152,7 +153,21 @@ const AddKeyword = () => {
                               >
                                 ดูรายละเอียด{" "}
                               </a>
-                              {/* <a>แก้ไข</a> */}
+                              <a
+                                onClick={() => {
+                                  setAddKeyword({
+                                    ...addKeyword,
+                                    keywordInput: v.keyword,
+                                    includeWord: v.require_keyword,
+                                    excludeWord: v.exclude_keyword,
+                                    modalEdit: true,
+                                    editKeywordId: v.id,
+                                    editProjectId: v.project_id,
+                                  });
+                                }}
+                              >
+                                แก้ไข
+                              </a>
                               <a
                                 onClick={() => {
                                   handleSubmit(v.id);
