@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import CryptoJS from "crypto-js";
 import { ToastContainer, toast } from "react-toastify";
-import { confirmRegister } from "../../graphql/Auth";
+import { confirmRegister, updatePassword } from "../../graphql/Auth";
 import { RequestAPI } from "../../utils";
 import { useRecoilState } from "recoil";
 import { registerState } from "../../recoil/atoms";
@@ -51,6 +51,25 @@ function PageRegister() {
       return;
     }
   };
+
+  const forget = async () => {
+    let { data, errors } = await RequestAPI(updatePassword, {
+      password: passwordComfirm,
+      id: parseInt(register.id),
+      token: register.token,
+    });
+    if (errors) {
+      toast.error("Error !", { position: toast.POSITION.TOP_RIGHT });
+      return;
+    }
+    if (data) {
+      toast.success("บันทึกสำเร็จ !", { position: toast.POSITION.TOP_RIGHT });
+      setTimeout(() => {
+        history.push("/");
+      }, 1000);
+      return;
+    }
+  };
   const submit = async () => {
     if (password.length < 1 || passwordComfirm.length < 1) {
       toast.error("กรุณากรอก Password !", { position: toast.POSITION.TOP_RIGHT });
@@ -61,9 +80,14 @@ function PageRegister() {
       return;
     }
 
-    regis();
+    if (register.type_url === "forgot_password") {
+      forget();
+    } else {
+      regis();
+    }
   };
 
+  console.log(register);
   return (
     <>
       <ToastContainer />

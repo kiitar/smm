@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import logo from "../../assets/images/logo.png";
 import "../../style/layout.css";
 import { AuthContext } from "../../App";
+import { RequestAPI } from "../../utils";
+import { useRecoilState } from "recoil";
+import { Link } from "react-router-dom";
+import { getSignIn, getToken } from "../../graphql/Auth";
 const Login = () => {
   const Auth = React.useContext(AuthContext);
 
@@ -10,7 +14,9 @@ const Login = () => {
   const [err, setErr] = useState(false);
   const [errMessage, setErrMessage] = useState("");
 
-  const handleClick = () => {
+  const forget = () => {};
+
+  const handleClick = async () => {
     if (!user) {
       setErrMessage("* username is required.");
       setErr(true);
@@ -21,22 +27,42 @@ const Login = () => {
       setErr(true);
       return;
     }
-    if (user !== "admin") {
-      setErrMessage("* username is not correct.");
-      setErr(true);
-      return;
+
+    let { data, errors } = await RequestAPI(getSignIn, {
+      email: user,
+    });
+    console.log(`handleClick -> errors`, errors);
+    console.log(`handleClick -> data`, data);
+
+    if (data) {
+      let { data: ex, errors: xe } = await RequestAPI(getToken, {
+        id: parseInt(data.getSignIn.id),
+        checksum: data.getSignIn.checksum,
+        password: pass,
+      });
+      console.log(`Login -> errors2`, xe);
+      console.log(`Login -> data2`, ex);
+      if (ex) {
+        Auth.setAuth(true);
+      }
     }
 
-    if (user === "admin" && pass === "dltadmin") {
-      console.log("Login");
-      localStorage.setItem("auth", true);
+    // if (user !== "admin") {
+    //   setErrMessage("* username is not correct.");
+    //   setErr(true);
+    //   return;
+    // }
 
-      Auth.setAuth(true);
-    } else {
-      setErrMessage("* wrong password.");
-      setErr(true);
-      return;
-    }
+    // if (user === "admin" && pass === "dltadmin") {
+    //   console.log("Login");
+    //   localStorage.setItem("auth", true);
+
+    //   Auth.setAuth(true);
+    // } else {
+    //   setErrMessage("* wrong password.");
+    //   setErr(true);
+    //   return;
+    // }
   };
 
   const handlePassword = (e) => {
@@ -100,7 +126,10 @@ const Login = () => {
             ></input>
           </div>
         </div>
-        {/* <button className="btn-forget">Forget Password?</button> */}
+        <Link className="btn-forget" to="/forget_password">
+          <button className="btn-forget">Forget Password?</button>
+        </Link>
+        {/*  */}
         {/* <br /> */}
         <div className="container-btn-login">
           <button className="btn-login" onClick={handleClick}>
