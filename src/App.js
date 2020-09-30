@@ -6,12 +6,10 @@ import Monitor from "./pages/Monitor";
 import Summary from "./pages/Summary";
 import CreateUser from "./pages/CreateUser";
 import PageRegister from "./pages/PageRegister";
-
 import AddKeyword from "./pages/AddKeyword";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 // import SideNav from "./components/SideNav";
-
 import TopNav from "./components/TopNav";
 import "./App.css";
 import "./style/btn.css";
@@ -69,10 +67,8 @@ const App = () => {
         <PrivateRoute exact path="/monitor" component={Monitor} auth={Auth.auth} />
         <PrivateRoute exact path="/summary" component={Summary} auth={Auth.auth} />
         <PrivateRoute exact path="/create_user" component={CreateUser} auth={Auth.auth} />
-        <PrivateLogin exact path="/register" component={PageRegister} auth={Auth.auth} />
+        <PrivateLogin exact path="/password_setting/:data" component={PageRegister} auth={Auth.auth} />
         <PrivateLogin exact path="/forget_password" component={ForgetPassword} auth={Auth.auth} />
-        {/* <PrivateRoute exact path="/chatbot" component={ChatBot} auth={Auth.auth} /> */}
-
         <PrivateLogin exact path="/login" component={Login} auth={Auth.auth} />
         <Route exact component={NotFound} />
       </Switch>

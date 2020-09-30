@@ -14,11 +14,7 @@ const CreateUser = () => {
               <div className="box-input-user">
                 <h3>Create User</h3>
                 <br />
-                <input
-                  className="input-user"
-                  type="text"
-                  placeholder="ระบุ E-mail"
-                />
+                <input className="input-user" type="text" placeholder="ระบุ E-mail" />
               </div>
               <br />
               <div className="radio-flex">
@@ -26,19 +22,19 @@ const CreateUser = () => {
                   <input type="radio" className="radio" name="radio" id="" />
                   <div className="span-user">
                     <div className="border-radio">Standard</div>
-                    <div className="law-admin">- Create User</div>
+                    <div className="law-admin">- Read Keyword</div>
                     <div className="law-admin">- Monitoring</div>
-                    <div className="law-admin">- Summery</div>
+                    <div className="law-admin">- Summary</div>
                   </div>
                 </div>
                 <div className="box-radio">
                   <input className="radio" type="radio" name="radio" id="" />
                   <div className="span-user"></div>
                   <div className="border-radio">Administrator</div>
-                  <div className="law-admin">- Create Keyword</div>
+                  <div className="law-admin">- Create, Read, Update and Delete Keyword</div>
                   <div className="law-admin">- Create User</div>
                   <div className="law-admin">- Monitoring</div>
-                  <div className="law-admin">- Summery</div>
+                  <div className="law-admin">- Summary</div>
                 </div>
               </div>
               <div>

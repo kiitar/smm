@@ -12,6 +12,7 @@ import { currentStartDateState } from "./currentStartDateState";
 import { modalConfirmState } from "./modalConfirmState";
 import { itemFocusState } from "./itemFocusState";
 import { modalLogoutState } from "./modalLogoutState";
+import { registerState } from "./registerState";
 export {
   currentMenuState,
   currentKeywordState,
@@ -27,4 +28,5 @@ export {
   modalConfirmState,
   itemFocusState,
   modalLogoutState,
+  registerState,
 };
